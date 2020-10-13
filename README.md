@@ -6,7 +6,16 @@
 	• Nicole Fejfar
 	• Jason O'Day
 	• Marianne Pagerit
- 
+	
+## Project Summary
+Twin Cities Neighborhood Dashboard
+	• Interactive dashboard providing information on Twin Cities neighborhoods
+		○ Crime
+		○ Housing
+		○ Demographics
+		○ Poverty
+		○ Walk Score / Transportation Score (time allowing)
+
 ## Data Sources (WIP)
 	• GeoJSON Mpls: https://data.world/minneapolismn/055ca54e5fcc47329f081c9ef51d038e-0
 		○ GeoJson File download
