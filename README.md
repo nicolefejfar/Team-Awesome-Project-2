@@ -1,5 +1,4 @@
-# Team Awesome Project 2
- Twin Cities Neighborhood Dashboard
+#  Twin Cities Neighborhood Dashboard
 
 ## Team Members
 	• John Clark
