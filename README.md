@@ -7,7 +7,6 @@
 	• Marianne Pagerit
 	
 ## Project Summary
-Twin Cities Neighborhood Dashboard
 	• Interactive dashboard providing information on Twin Cities neighborhoods
 		○ Crime
 		○ Housing
