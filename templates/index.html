@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Demo</title>
+
+    <!-- import bootstrap for formatting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <!-- Import the Plotly library. Note that this has to 
+         happen before we importa any code that uses Plotly. -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Import the D3 library. Note that this has to happen 
+    before we import any code that uses D3. -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- Import some CSS, just to show how it's done. -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css"></link>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-custom navbar-light fixed-top">
+        <a class="navbar-brand" href="index.html">Neighborhood Profiles</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"><i class="fas fa-chart-line"></i> Plots</a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="Visualizations/temperature.html"><i class="fas fa-temperature-high"></i> Max Temperature</a>
+                <a class="dropdown-item" href="Visualizations/humidity.html"><i class="fas fa-tint"></i> Humidity</a>
+                <a class="dropdown-item" href="Visualizations/cloudiness.html"><i class="fas fa-cloud"></i> Cloudiness</a>
+                <a class="dropdown-item" href="Visualizations/wind_speed.html"><i class="fas fa-wind"></i> Wind Speed</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="comparison.html"><i class="fas fa-compress-arrows-alt"></i> Comparison</a>
+            </li>      
+            <li class="nav-item">
+              <a class="nav-link" href="data.html"><i class="fas fa-table"></i> Data</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
+     <br>
+     <br> 
+    <h1>Twin Cities Neighborhoods</h1>
+
+    <h2>Note: This page will have an interactive map and two visualizations</h2>
+    <h2>We need to use some bootstrap for formatting</h2> 
+    
+
+    <div class="container-md">
+        
+        <div class="row">
+            <div class="col-8">
+              Map
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    Visualization 1
+                </div>
+                <div class="row">
+                    Visualization 2
+                </div>
+            </div>
+          </div>
+    </div>
+
+    <!-- Placeholder for a plot -->
+    <!-- <div id="plot"></div> -->
+
+    <!-- Create a hyperlink that calls the '/other' route when clicked. 
+         Go to app.py to see how that '/other' route is defined. -->
+    <a href="/other">Click here for the other page!</a>
+
+    <!-- Import the main JavaScript code. -->
+    <script type="text/javascript" src="static/js/main.js"></script>
+    
+    <!-- Bootstrap Requirement -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
