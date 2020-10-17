@@ -32,3 +32,4 @@ d3.json("/dictionary").then(function (data) {
     // Create the plot
     Plotly.newPlot("plot", data, layout); 
 });
+
