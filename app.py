@@ -14,7 +14,7 @@ from sqlalchemy import create_engine
 # Define the database connection parameters
 username = 'postgres'  
 # add the database here
-database_name = 'GlobalFirePower' 
+database_name = 'tc_neighborhoods' 
 connection_string = f'postgresql://{username}:{password}@localhost:5432/{database_name}'
 
 # Connect to the database
@@ -23,7 +23,7 @@ base = automap_base()
 base.prepare(engine, reflect=True)
 
 # Choose the table we wish to use
-table = base.classes.firepower
+table = base.classes.merged_crime
 
 # Instantiate the Flask application. 
 app = Flask(__name__)
@@ -48,26 +48,26 @@ def OtherRoute():
     webpage = render_template("about.html", title_we_want="About Us")
     return webpage
 
-@app.route("/data")
-def QueryFighterAircraft():
-    ''' Query the database for fighter aircraft and return the results as a JSON. '''
+# @app.route("/data")
+# def QueryFighterAircraft():
+#     ''' Query the database for fighter aircraft and return the results as a JSON. '''
 
-    # Open a session, run the query, and then close the session again
-    session = Session(engine)
-    results = session.query(table.country, table.iso3, table.fighteraircraft).all()
-    session.close()
+    # # Open a session, run the query, and then close the session again
+    # session = Session(engine)
+    # results = session.query(table.country, table.iso3, table.fighteraircraft).all()
+    # session.close()
 
-    # Create a list of dictionaries, with each dictionary containing one row from the query. 
-    all_aircraft = []
-    for country, iso3, fighteraircraft in results:
-        dict = {}
-        dict["country"] = country
-        dict["iso3"] = iso3
-        dict["fighteraircraft"] = fighteraircraft
-        all_aircraft.append(dict)
+    # # Create a list of dictionaries, with each dictionary containing one row from the query. 
+    # all_aircraft = []
+    # for country, iso3, fighteraircraft in results:
+    #     dict = {}
+    #     dict["country"] = country
+    #     dict["iso3"] = iso3
+    #     dict["fighteraircraft"] = fighteraircraft
+    #     all_aircraft.append(dict)
 
-    # Return the jsonified result. 
-    return jsonify(all_aircraft) 
+    # # Return the jsonified result. 
+    # return jsonify(all_aircraft) 
 
 # final required code for flask server
 if __name__ == '__main__':
