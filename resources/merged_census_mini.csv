@@ -1,4 +1,4 @@
-Neighborhood,City,Total population,White - Share,Of Color - Share,Total housing units,Total households,Family households - Share,Married-couple family households - Share,Nonfamily households - Share,Vacant housing units - Share,Occupied housing units - Share,Average household size (occupied),Owner-occupied - Share,Average owner-occupied household size,Renter-occupied - Share,Average renter-occupied household size
+Neighborhood,City,Total_population,White_Share,Of_Color_Share,Total_housing_units,Total_households,Family_households_Share,Married_fam_hsehlds_Share,Nonfam_hsehlds_Share,Vacant_housing_units_Share,Occupied_housing_units_Share,Avg_hsehld_size_occupied,Owner_occupied_share,Avg_owner_occupied_hsehld_size,Renter_occupied_Share,Avg_renter_occupied_hsehld_size
 Armatage,Minneapolis,5101,84.60,15.40,2194,2039,66.20,55.90,33.80,7.10,92.90,2.0,79.90,2.0,13.00,2.5
 Audubon Park,Minneapolis,4421,78.60,21.40,1971,1938,50.40,37.80,49.60,1.70,98.30,1.8,66.70,2.0,31.60,1.8
 Bancroft,Minneapolis,3609,73.40,26.60,1556,1497,55.70,45.40,44.30,3.80,96.20,2.0,70.10,2.0,26.10,2.2

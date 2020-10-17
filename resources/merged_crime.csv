@@ -1,4 +1,4 @@
-City,Hood,Incident,Month,Year,Count
+City,Neighborhood,Incident,Month,Year,Count
 Minneapolis,Armatage,Larceny,1,2018,5
 Minneapolis,Armatage,Robbery,1,2018,1
 Minneapolis,Audubon Park,Auto Theft,1,2018,5
