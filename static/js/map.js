@@ -18,10 +18,13 @@ var myMap = L.map("map", {
   
   // Use this link to get the geojson data.
   var stPaul = "static/data/StPaul.geojson";
+
+  // repeat with Minneapolis Neighborhoods
+  var Minneapolis = "static/data/minneapolis-neighborhoods-2-1.geo"
   
   // Our style object
   var mapStyle = {
-    color: "white",
+    color: "grey",
     fillColor: "pink",
     fillOpacity: 0.5,
     weight: 1.5
@@ -36,10 +39,9 @@ var myMap = L.map("map", {
     }).addTo(myMap);
   });
 
-  // repeat with Minneapolis Neighborhoods
-  var Minneapolis = "static/data/minneapolis.geojson"
+  
 
-  // Grabbing our GeoJSON data..
+//   // Grabbing our GeoJSON data..
   d3.json(Minneapolis).then(function(data) { 
   // Create a geoJSON layer with the retrieved data
   L.geoJson(data, {
