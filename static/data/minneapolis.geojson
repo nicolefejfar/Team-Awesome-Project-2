@@ -96,7 +96,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Northrup",
+"name": "Northrop",
 "cartodb_id": 3,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -2066,7 +2066,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Phillips",
+"name": "Phillips West",
 "cartodb_id": 26,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -2172,7 +2172,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Stevens Square",
+"name": "Stevens Square - Loring Heights",
 "cartodb_id": 27,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -2654,7 +2654,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Humboldt Industrial",
+"name": "Humboldt Industrial Area",
 "cartodb_id": 32,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -3260,7 +3260,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Bryn-Mawr",
+"name": "Bryn Mawr",
 "cartodb_id": 37,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -3418,7 +3418,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Cedar-Isles",
+"name": "Cedar-Isles-Dean",
 "cartodb_id": 38,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -3540,7 +3540,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Columbia",
+"name": "Columbia Park",
 "cartodb_id": 39,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -4116,7 +4116,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Marcy-Holmes",
+"name": "Marcy Holmes",
 "cartodb_id": 45,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -4234,7 +4234,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Prospect Park",
+"name": "Prospect Park - East River Road",
 "cartodb_id": 46,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -4632,7 +4632,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Cedar-Riverside",
+"name": "Cedar Riverside",
 "cartodb_id": 49,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -5756,7 +5756,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "CARAG",
+"name": "South Uptown",
 "cartodb_id": 61,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -6730,7 +6730,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Nicollet Island",
+"name": "Nicollet Island - East Bank",
 "cartodb_id": 70,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -7276,7 +7276,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "University",
+"name": "University of Minnesota",
 "cartodb_id": 75,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"
@@ -7666,7 +7666,7 @@
 {
 "type": "Feature",
 "properties": {
-"name": "Como",
+"name": "Como (Minneapolis)",
 "cartodb_id": 78,
 "created_at": "2013-02-20T04:06:07.501Z",
 "updated_at": "2013-02-20T04:06:07.744Z"

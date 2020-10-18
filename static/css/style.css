@@ -1,5 +1,39 @@
-h1 { color: blue; }
-h3 { color: red; }
+h2 {text-align: center;
+    color: rgb(163, 54, 100)}
+h3 {text-align: center;
+    color: rgb(163, 54, 100)}
+h4 {text-align: center;
+    color: rgb(163, 54, 100)}
 
-#map { height: 700px; }
-#map { width: 1000px; }
+/* #map { height: 700px; }
+#map { width: 1000px; } */
+
+/* #map {height: 50vw;
+      width: 100vw;
+      margin-right: 50px;} */
+
+#map {
+    height: 50vw;
+    width: 100vw;
+}
+
+/* .container {background-color: yellow;} */
+.container {
+    margin-top: 50px;}
+
+/* #plot1 {
+    height: 35vw;
+    width: 100vw;
+} */
+
+/* .navbar .navbar-brand {
+    background-color: #b84d64;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;} */
+
+
+
+    
