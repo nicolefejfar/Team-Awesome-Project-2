@@ -30,80 +30,76 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
+    <!-- API key -->
+    <script type="text/javascript" src="static/js/config.js"></script>
 
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-custom navbar-light fixed-top">
-        <a class="navbar-brand" href="index.html">Twin Cities Neighborhood Profiles</a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav ml-auto">
-            <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"><i class="fas fa-chart-line"></i> Plots</a>
+  <nav class="navbar navbar-expand-lg bg-custom navbar-light fixed-top">     
+    <a class="navbar-brand" href="index.html">Twin Cities Neighborhood Profiles</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"><i class="fas fa-chart-line"></i>Data</a>
               <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="Visualizations/temperature.html"><i class="fas fa-temperature-high"></i> Max Temperature</a>
-                <a class="dropdown-item" href="Visualizations/humidity.html"><i class="fas fa-tint"></i> Humidity</a>
-                <a class="dropdown-item" href="Visualizations/cloudiness.html"><i class="fas fa-cloud"></i> Cloudiness</a>
-                <a class="dropdown-item" href="Visualizations/wind_speed.html"><i class="fas fa-wind"></i> Wind Speed</a>
+                <a class="dropdown-item" href="/census_data"><i class="fas fa-temperature-high"></i>Census Data</a>
+                <a class="dropdown-item" href="/crime_data"><i class="fas fa-tint"></i>Crime Data</a>
               </div>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" href="/about"><i class="fas fa-compress-arrows-alt"></i>About Us</a>
-            </li>      
-            <li class="nav-item">
-              <a class="nav-link" href="/data"><i class="fas fa-table"></i> Data</a>
             </li>
-          </ul>
-        </div>
-      </nav>
+         <li class="nav-item">
+          <a class="nav-link" href="/about"><i class="fas fa-compress-arrows-alt"></i>About Us</a>
+        </li>      
+      </ul>
+    </div>
+  </nav>
       
-     <br>
-     <br> 
+  <br>
+  <br> 
 
+  <div class="container">
     <h2>Twin Cities Neighborhoods</h2> 
     <h4>To see details about a specific neighborhood, click on it on the map.</h4>
-
+  </div>
     
-    <!-- <div class="container"> -->
         
-        <div class="row">
-            <div class="col-md-8">
-              <!-- map div -->
-              <div id="map"></div>
-
-              <!-- API key -->
-              <script type="text/javascript" src="static/js/config.js"></script>
-            </div>
-            <div class="col-md-4">
-                <div class="row">
-                    Visualization 1
-                </div>
-                <div class="row">
-                    Visualization 2
-                </div>
-            </div>
-          </div>
-    <!-- </div> -->
-
-                  
-
-    <!-- Placeholder for a plot -->
-    <!-- <div id="plot"></div> -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="container">
+        <div id="map"></div>
+      </div>   
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="container">
+          <div id="plot1"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container">
+          <div id="plot2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-    <!-- Import the main JavaScript code. -->
-    <!-- <script type="text/javascript" src="static/js/main.js"></script> -->
+  <!-- Import the main JavaScript code. -->
+  <!-- <script type="text/javascript" src="static/js/main.js"></script> -->
 
-    <!-- Import the map JavaScript code. -->
-    <script type="text/javascript" src="static\js\map.js"></script>
+  <!-- Import the map JavaScript code. -->
+  <script type="text/javascript" src="static\js\map.js"></script>
+
+  <!-- Import the JavaScript for plot 1 -->
+  <script type="text/javascript" src="static\js\plot1.js"></script>
     
-    <!-- Bootstrap Requirement -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- Bootstrap Requirement -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
 
