@@ -5,21 +5,24 @@ h3 {text-align: center;
 h4 {text-align: center;
     color: rgb(163, 54, 100)}
 
-/* #map { height: 700px; }
-#map { width: 1000px; } */
+#map { height: 700px; }
+#map { width: 100%; }
 
 /* #map {height: 50vw;
       width: 100vw;
       margin-right: 50px;} */
 
-#map {
+/* #map {
     height: 50vw;
     width: 100vw;
-}
+} */
 
 /* .container {background-color: yellow;} */
-.container {
-    margin-top: 50px;}
+/* .container {
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+} */
 
 /* #plot1 {
     height: 35vw;
