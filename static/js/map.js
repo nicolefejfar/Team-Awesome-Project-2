@@ -19,35 +19,62 @@ var myMap = L.map("map", {
   }).addTo(myMap);
   
   // Use this link to get the geojson data.
-  var stPaul = "static/data/StPaul.geojson";
+  var stPaul = "static/data/StPaul_Census.geojson";
 
   // repeat with Minneapolis Neighborhoods
-  var Minneapolis = "static/data/minneapolis-neighborhoods-2-1.geo"
+  var Minneapolis = "static/data/Minneapolis_Census.geojson"
   
   // Our style object
-  var mapStyle = {
-    color: "grey",
-    fillColor: "pink",
-    fillOpacity: 0.5,
-    weight: 1.5
-  };
+  // var mapStyle = {
+  //   color: "grey",
+  //   fillColor: "pink",
+  //   fillOpacity: 0.5,
+  //   weight: 1.5
+  // };
+
+  function getColor(d) {
+    return d > 60000 ? '#4d004b' :
+          d > 30000 ? '#810f7c' :
+          d > 15000 ? '#88419d' :
+          d > 7500 ? '#8c6bb1' :
+          d > 3750 ? '#8c96c6' :
+          d > 2000 ? '#9ebcda' :
+          d > 1500 ? '#bfd3e6' :
+          d > 1000 ? '#e0ecf4' :
+                      '#f7fcfd';
+  }
+
+  function style(feature) {
+    return {
+      fillColor: getColor(feature.properties.Total_population),
+      weight: 1.5,
+      opacity: 1,
+      color: "white",
+      fillOpacity: 0.7
+    };
+  }
   
   // Grabbing our GeoJSON data..
   d3.json(stPaul).then(function(data) { 
     // Create a geoJSON layer with the retrieved data
     L.geoJson(data, {
       // Passing in our style object
-      style: mapStyle
+      style: style
     }).addTo(myMap);
   });
 
-  
 
-//   // Grabbing our GeoJSON data..
+  // Grabbing our GeoJSON data..
   d3.json(Minneapolis).then(function(data) { 
   // Create a geoJSON layer with the retrieved data
   L.geoJson(data, {
     // Passing in our style object
-    style: mapStyle
+    style: style
   }).addTo(myMap);
+
+
+
+  // L.geoJson(Minneapolis, {style: style}).addto(myMap)
+  // L.geoJson(stPaul, {style: style}).addto(myMap)
+
 });
