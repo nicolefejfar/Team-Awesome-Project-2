@@ -1,7 +1,3 @@
--- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
-
-
 CREATE TABLE "merged_crime" (
     City varchar   NOT NULL,
     Neighborhood varchar   NOT NULL,
@@ -35,8 +31,9 @@ CREATE TABLE "merged_census_mini" (
      )
 );
 
-ALTER TABLE "merged_crime" ADD CONSTRAINT "fk_merged_crime_Neighborhood" FOREIGN KEY("Neighborhood")
-REFERENCES "merged_census_mini" ("Neighborhood");
+-- FK doesn't work because there is a few missing neighborhoods in the census data
+-- ALTER TABLE "merged_crime" ADD CONSTRAINT "fk_merged_crime_Neighborhood" FOREIGN KEY("Neighborhood")
+-- REFERENCES "merged_census_mini" ("Neighborhood");
 
--- -- -- select * from merged_census_mini;
--- select * from merged_crime;
+select * from merged_crime;
+select * from merged_census_mini;
