@@ -2,17 +2,12 @@ var crime_data = "static/data/merged_crime.csv";
 var census_data = "static/data/merged_census_mini.csv";
 
 function buildPlot() {
+    var hoodName = [];
+    var hoodOO = [];
     d3.csv(census_data).then(function(data) {
-        var hoodName = [];
-        var hoodOO = [];
-        
         data.forEach(function(hood) {
             hoodName.push(hood.Neighborhood)
             hoodOO.push(hood.Owner_occupied_share);
-            console.log(hoodName);
-            console.log(hoodOO);
-            // console.log(hood.Neighborhood);
-            // console.log(hood.Owner_occupied_share);
             
             // Create the Trace
             var trace1 = {
@@ -38,5 +33,8 @@ function buildPlot() {
             Plotly.newPlot("plot1", data, layout, config);
         })
     });
+    console.log(hoodName);
+    console.log(hoodOO);
 }
 buildPlot();
+
