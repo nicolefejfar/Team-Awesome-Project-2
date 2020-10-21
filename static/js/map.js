@@ -1,4 +1,4 @@
-console.log("Loaded map.js")
+console.log("Loaded mapNicole.js. If you are seeing this, please swap out for map.js in the index.html file")
 
 // Creating map object
 var myMap = L.map("map", {
@@ -21,7 +21,6 @@ var myMap = L.map("map", {
   
   // Use this link to get the geojson data.
   var stPaul = "static/data/StPaul_Census.geojson";
-
   // repeat with Minneapolis Neighborhoods
   var Minneapolis = "static/data/Minneapolis_Census.geojson"
   
@@ -56,26 +55,61 @@ var myMap = L.map("map", {
   }
   
   // Grabbing our GeoJSON data..
-  d3.json(stPaul).then(function(data) { 
+  d3.json(stPaul).then(function(data) {  
+    console.log(data);
+
     // Create a geoJSON layer with the retrieved data
     L.geoJson(data, {
       // Passing in our style object
-      style: style
+      style: style,
+      // Mouseover event
+      onEachFeature: function(feature, layer) {
+        layer.on({
+          mouseover: function(event) {
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.9
+            });
+          },
+          mouseout: function(event) {
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.7
+            })
+          },
+          // click: function(event) {
+          //   myMap.fitBounds(event.target.getBounds());
+          // }
+        });
+        layer.bindPopup("<h6>" + feature.properties.name2 + "</h6>");
+      }
     }).addTo(myMap);
   });
 
 
   // Grabbing our GeoJSON data..
-  d3.json(Minneapolis).then(function(data) { 
-  // Create a geoJSON layer with the retrieved data
-  L.geoJson(data, {
-    // Passing in our style object
-    style: style
+  d3.json(Minneapolis).then(function(data) {
+    // Create a geoJSON layer with the retrieved data
+    L.geoJson(data, {
+      // Passing in our style object
+      style: style,
+      // Attempting a mouseover event
+      onEachFeature: function(feature, layer) {
+        layer.on({
+          mouseover: function(event) {
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.9
+            });
+          },
+          mouseout: function(event) {
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.7
+            });
+          }
+        })
+      }
   }).addTo(myMap);
+  });
 
-
-
-  // L.geoJson(Minneapolis, {style: style}).addto(myMap)
-  // L.geoJson(stPaul, {style: style}).addto(myMap)
-
-});

@@ -1,10 +1,13 @@
-var crime_data = "static/data/merged_crime.csv";
-var census_data = "static/data/merged_census_mini.csv";
+// var crime_data = "static/data/merged_crime.csv";
+// var census_data = "static/data/merged_census_mini.csv";
+
+var crime_data = "/crime_data";
+var census_data = "/census_data";
 
 function buildPlot() {
     var hoodName = [];
     var hoodOO = [];
-    d3.csv(census_data).then(function(data) {
+    d3.json(census_data).then(function(data) {
         data.forEach(function(hood) {
             hoodName.push(hood.Neighborhood)
             hoodOO.push(hood.Owner_occupied_share);
