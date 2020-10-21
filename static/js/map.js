@@ -1,11 +1,13 @@
-console.log("Loaded mapNicole.js. If you are seeing this, please swap out for map.js in the index.html file")
+console.log("Loaded map.js")
 
 // Creating map object
 var myMap = L.map("map", {
     center: [44.97, -93.165],
     zoom: 11.75,
     zoomDelta: 0.25,
-    zoomSnap: 0.25
+    zoomSnap: 0.25,
+    doubleClickZoom: false,
+    scrollWheelZoom: false
   });
   
   // Adding tile layer
@@ -69,26 +71,33 @@ var myMap = L.map("map", {
             layer = event.target;
             layer.setStyle({
               fillOpacity: 0.9
-            });
+            }),
+            layer.bindTooltip(feature.properties.name2,
+              {className:'myLabelStyle',             permanent:true,
+              }
+            );
           },
           mouseout: function(event) {
             layer = event.target;
             layer.setStyle({
               fillOpacity: 0.7
-            })
+            }),
+            layer.unbindTooltip();
           },
-          // click: function(event) {
-          //   myMap.fitBounds(event.target.getBounds());
-          // }
+          click: function() {
+            // alert('Clicked on ' + feature.properties.name2)
+            var userHood = feature.properties.name2;
+            console.log(userHood);
+            return userHood;
+          }
         });
-        layer.bindPopup("<h6>" + feature.properties.name2 + "</h6>");
       }
     }).addTo(myMap);
   });
 
-
   // Grabbing our GeoJSON data..
   d3.json(Minneapolis).then(function(data) {
+    console.log(data);
     // Create a geoJSON layer with the retrieved data
     L.geoJson(data, {
       // Passing in our style object
@@ -100,16 +109,107 @@ var myMap = L.map("map", {
             layer = event.target;
             layer.setStyle({
               fillOpacity: 0.9
-            });
+            }),
+            layer.bindTooltip(feature.properties.name,
+              {direction:'center',
+              className:'myLabelStyle',             permanent:true
+              }
+            );
           },
           mouseout: function(event) {
             layer = event.target;
             layer.setStyle({
               fillOpacity: 0.7
-            });
+            })
+            layer.unbindTooltip();
           }
-        })
+        });
+        // layer.bindPopup("<h5>" + feature.properties.name + "</h5><hr>" + "<h6>Population: " + feature.properties.Total_population + "</h6");
       }
-  }).addTo(myMap);
+    }).addTo(myMap);
   });
 
+
+// *********** PLOT BUILDING **********
+
+// Look to our flask-served census database
+var crime_data = "/crime_data";
+var census_data = "/census_data";
+
+// Create arrays to hold all census data
+// Can this be pulled out from the app.py file?
+var neigborhood = [];
+var population = [];
+var totalHouseholds = [];
+var totalHousingUnits = [];
+
+var occupUnitsPercent = [];
+var vacantUnitsPercent = [];
+var OOPercent = [];
+var ROPercent = [];
+
+var avgHHSize = [];
+var avgOOHHSize = [];
+var avgROHHSize = [];
+
+var famHHPercent = [];
+var marriedHHPercent = [];
+var nonFamHHPercent = [];
+
+var ofColorPercent = [];
+var whitePercent = [];
+
+function buildPlot() {
+d3.json(census_data).then(function(data) {
+  console.log(data);
+  data.forEach(function(h) {
+    neigborhood.push(h.Neighborhood);
+    population.push(h.Total_population);
+    totalHouseholds.push(h.Total_households);
+    totalHousingUnits.push(h.Total_housing_units);
+    occupUnitsPercent.push(h.Occupied_housing_units_Share);
+    vacantUnitsPercent.push(h.Vacant_housing_units_Share);
+    OOPercent.push(h.Owner_occupied_share);
+    ROPercent.push(h.Renter_occupied_Share);
+    avgHHSize.push(h.Avg_hsehld_size_occupied);
+    avgOOHHSize.push(h.Avg_owner_occupied_hsehld_size);
+    avgROHHSize.push(h.Avg_renter_occupied_hsehld_size);
+    famHHPercent.push(h.Family_households_Share);
+    marriedHHPercent.push(h.Married_fam_hsehlds_Share);
+    nonFamHHPercent.push(h.Nonfam_hsehlds_Sharey);
+    ofColorPercent.push(h.Of_Color_Share);
+    whitePercent.push(h.White_Share);
+
+    // Create the Trace
+    var trace1 = {
+        x: neigborhood,
+        y: OOPercent,
+        type: "bar",
+    };
+    
+    
+    // Create the data array for our plot
+    var data = [trace1];
+
+    // Define our plot layout
+    var layout = {
+        title: "Owner Occupancy Per Neigborhood",
+        // xaxis: {title: "Neighborhood"},
+        yaxis: {title: "Owner Occupancy (Percent)"}
+    };
+
+    // Make responsive
+    var config = {responsive: true};
+
+    // Plot the chart to a div tag with id "plot1"
+    Plotly.newPlot("plot1", data, layout, config);
+  })
+});
+
+}
+buildPlot();
+
+// Look to our flask-served crime database
+var crime_data = "/crime_data";
+
+// Create arrays to hold all crime data
