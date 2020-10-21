@@ -3,15 +3,32 @@ h2 {text-align: center;
 h4 {text-align: center;
     color: rgb(163, 54, 100)}
 
-#map {height: 700px;
+#map {height: 600px;
       width: 100%;}
 
-.container {margin-top: 50px;}
+.container {margin-top: 50px;
+width: 100%;}
 
-/* #plot1 {
-    height: 35vw;
-    width: 100vw;
-} */
+#plot1 {
+    height: 400px;
+    width: 100%;
+}
+
+#plot2 {
+    height: 400px;
+    width: 100%;
+}
+
+
+.leaflet-pane .leaflet-tooltip-pane .myLabelStyle {
+    color: rgb(102, 62, 117);
+    font-weight: bold;
+    padding: 2px;
+    /* background-color: rgba(255,255,255,0);
+    border: none;
+    box-shadow: none; */
+}
+
 
 /* .navbar .navbar-brand {
     background-color: #b84d64;
