@@ -30,6 +30,10 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
+    <!-- Chartist - must be inserted before using in JS code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
     <!-- API key -->
     <script type="text/javascript" src="static/js/config.js"></script>
 
@@ -96,7 +100,7 @@
         <div id="plot1"></div>
       </div>
       <div class="col-md-6">
-        <div id="plot2"></div>
+        <div class="ct-chart ct-perfect-fourth"></div>
       </div>
     </div>
   </div>
