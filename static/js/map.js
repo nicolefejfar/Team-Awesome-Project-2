@@ -122,6 +122,12 @@ var myMap = L.map("map", {
               fillOpacity: 0.7
             })
             layer.unbindTooltip();
+          },
+          click: function() {
+            // alert('Clicked on ' + feature.properties.name2)
+            var userHood = feature.properties.name;
+            console.log(userHood);
+            return userHood;
           }
         });
         // layer.bindPopup("<h5>" + feature.properties.name + "</h5><hr>" + "<h6>Population: " + feature.properties.Total_population + "</h6");
