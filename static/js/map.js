@@ -25,6 +25,10 @@ var myMap = L.map("map", {
   var stPaul = "static/data/StPaul_Census.geojson";
   // repeat with Minneapolis Neighborhoods
   var Minneapolis = "static/data/Minneapolis_Census.geojson"
+
+  // Look to our flask-served census database
+  var crime_data = "/crime_data";
+  var census_data = "/census_data";
   
   // Our style object
   // var mapStyle = {
@@ -87,7 +91,7 @@ var myMap = L.map("map", {
           click: function() {
             // alert('Clicked on ' + feature.properties.name2)
             var userHood = feature.properties.name2;
-            console.log(userHood);
+            console.log(`You clicked on ${userHood}!`);
             return userHood;
           }
         });
@@ -126,8 +130,32 @@ var myMap = L.map("map", {
           click: function() {
             // alert('Clicked on ' + feature.properties.name2)
             var userHood = feature.properties.name;
+            
             console.log(userHood);
             return userHood;
+            // if (feature.properties.name == userHood) {
+            //   console.log(feature.properties.Avg_hsehld_size_occupied);
+            // }
+
+            // find the properties in the json object that are listed with userHood
+            // this code doesn't work yet, but I think this is teh direction we need to go.
+            var results = [];
+
+            d3.json(census_data).then(function(data) {
+              for (var i=0 ; i < data.list.length ; i++) {
+                if (data.list[i]["Neighborhood"] == userHood) {
+                  // results.push(census_data.list[i]);
+                  // return results;
+                  // console.log(results);
+                  console.log(`Found the ${userHood} neighborhood.`);
+                }
+              }
+            });
+            
+            
+            // print the properties that we want to the console: 
+
+
           }
         });
         // layer.bindPopup("<h5>" + feature.properties.name + "</h5><hr>" + "<h6>Population: " + feature.properties.Total_population + "</h6");
@@ -138,9 +166,9 @@ var myMap = L.map("map", {
 
 // *********** PLOT BUILDING **********
 
-// Look to our flask-served census database
-var crime_data = "/crime_data";
-var census_data = "/census_data";
+// // Look to our flask-served census database
+// var crime_data = "/crime_data";
+// var census_data = "/census_data";
 
 // Create arrays to hold all census data
 // Can this be pulled out from the app.py file?
@@ -214,6 +242,63 @@ d3.json(census_data).then(function(data) {
 
 }
 buildPlot();
+
+function filterBarChart(selectedNeighborhood) {
+  // filter json for the neighborhood selected
+
+  // grab the variables for Occupied, Vacant, Owner Occupied, and Renter Occupied
+
+}
+
+// function buildPlot() {
+//   d3.json(census_data).then(function(data) {
+//     console.log(data);
+//     data.forEach(function(h) {
+//       // neigborhood.push(h.Neighborhood);
+//       // population.push(h.Total_population);
+//       // totalHouseholds.push(h.Total_households);
+//       // totalHousingUnits.push(h.Total_housing_units);
+//       occupUnitsPercent.push(h.Occupied_housing_units_Share);
+//       vacantUnitsPercent.push(h.Vacant_housing_units_Share);
+//       OOPercent.push(h.Owner_occupied_share);
+//       ROPercent.push(h.Renter_occupied_Share);
+//       avgHHSize.push(h.Avg_hsehld_size_occupied);
+//       // avgOOHHSize.push(h.Avg_owner_occupied_hsehld_size);
+//       // avgROHHSize.push(h.Avg_renter_occupied_hsehld_size);
+//       // famHHPercent.push(h.Family_households_Share);
+//       // marriedHHPercent.push(h.Married_fam_hsehlds_Share);
+//       // nonFamHHPercent.push(h.Nonfam_hsehlds_Sharey);
+//       // ofColorPercent.push(h.Of_Color_Share);
+//       // whitePercent.push(h.White_Share);
+  
+//       // Create the Trace
+//       var trace1 = {
+//           x: neigborhood,
+//           y: OOPercent,
+//           type: "bar",
+//       };
+      
+      
+//       // Create the data array for our plot
+//       var data = [trace1];
+  
+//       // Define our plot layout
+//       var layout = {
+//           title: "Housing Occupancy in the Twin Cities",
+//           // xaxis: {title: "Neighborhood"},
+//           yaxis: {title: "Owner Occupancy (Percent)"}
+//       };
+  
+//       // Make responsive
+//       var config = {responsive: true};
+  
+//       // Plot the chart to a div tag with id "plot1"
+//       Plotly.newPlot("plot1", data, layout, config);
+//     })
+//   });
+  
+//   }
+//   buildPlot();
 
 // Look to our flask-served crime database
 var crime_data = "/crime_data";
