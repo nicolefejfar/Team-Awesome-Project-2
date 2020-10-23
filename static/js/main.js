@@ -73,36 +73,39 @@ var crimeYear = [];
 var crimeCounts = {};
 var nhCounts = {};
 
-d3.json(crime_data).then(function(data) 
-  {
-  console.log(data);
-  data.forEach(function(crime) 
-    {
-      crimeName.push(crime.Neighborhood)
-      crimeType.push(crime.Incident)
-      crimeCount.push(crime.Count)
-      crimeYear.push(crime.Year);
+// d3.json(crime_data).then(function(data) 
+//   {
+//   // console.log(data);
+//   data.forEach(function(crime) 
+//     {
+//       crimeName.push(crime.Neighborhood)
+//       crimeType.push(crime.Incident)
+//       crimeCount.push(crime.Count)
+//       crimeYear.push(crime.Year);
 
-      var currentcrime = crime.Incident;
-        // If the crime has been seen before...
-        if (currentcrime in crimeCounts) 
-          {
-            // Add crime count to the sum
-            crimeCounts[currentcrime] += crime.Count;
-          }
-        else 
-          {
-    //       // Set the amount to first count of crime
-          crimeCounts[currentcrime] = crime.Count;
-          }
-      return crimeCounts;
+//       var currentcrime = crime.Incident;
+//         // If the crime has been seen before...
+//         if (currentcrime in crimeCounts) 
+//           {
+//             // Add crime count to the sum
+//             crimeCounts[currentcrime] += crime.Count;
+//           }
+//         else 
+//           {
+//            // Set the amount to first count of crime
+//           crimeCounts[currentcrime] = crime.Count;
+//           }
+//       return crimeCounts;
       
-    })
-  });
+//     })
+//     console.log(crimeType);
+//     console.log(crimeCounts);
+
+//   });
 
   d3.json(crime_data).then(function(data) 
   {
-  console.log(data);
+  // console.log(data);
   data.forEach(function(crime) 
     {
       crimeName.push(crime.Neighborhood)
@@ -222,6 +225,204 @@ d3.json(stPaul).then(function(data) {
           // alert('Clicked on ' + feature.properties.name2)
           var userHood = feature.properties.name2;
           console.log(userHood);
+          function returnValue (a) {
+            for ([key, value] of Object.entries(a)) {
+              if (key == userHood) {
+                return value;
+              }
+            }
+          }
+           // **************************start filtered bar chart ****************************
+           d3.json(crime_data).then(function(data) 
+           {
+                 var crimeTypeFiltered = [];
+                 var crimeCountFiltered = [];
+                 var crimeCountsFiltered = {};
+ 
+             // console.log(data);
+             data.forEach(function(crime) 
+               {
+                 if (crime.Neighborhood == userHood) {
+                   crimeTypeFiltered.push(crime.Incident)
+                   crimeCountFiltered.push(crime.Count);
+           
+                   var currentcrime = crime.Incident;
+                     // If the crime has been seen before...
+                     if (currentcrime in crimeCountsFiltered) 
+                       {
+                         // Add crime count to the sum
+                         crimeCounts[currentcrime] += crime.Count;
+                       }
+                     else 
+                       {
+                       // Set the amount to first count of crime
+                       crimeCountsFiltered[currentcrime] = crime.Count;
+                       }
+                   return crimeCountsFiltered;
+                 }
+               })
+               console.log(crimeCountsFiltered);
+         
+               newKeys = [];
+               newValues = [];
+         
+               for (var key in crimeCountsFiltered) {
+                 newKeys.push(key);
+                 newValues.push(crimeCountsFiltered[key]);
+               }
+         
+               console.log(newKeys);
+               console.log(newValues);
+         
+               function newPlot() {
+         
+                 // Create the Trace
+                 var trace1 = {
+                   x: newKeys,
+                   y: newValues,
+                   type: "bar",
+                 };
+             
+             
+                 // Create the data array for our plot
+                 var data = [trace1];
+         
+                 // Define our plot layout
+                 var layout = {
+                     title: `${userHood} Crime by Type`,
+                     // xaxis: {title: "Neighborhood"},
+                     yaxis: {title: "Total Occurrences"}
+                 };
+         
+                 // Make responsive
+                 var config = {responsive: true};
+         
+                 // Plot the chart to a div tag with id "plot1"
+                 Plotly.newPlot("plot1", data, layout, config);
+         
+               }
+               newPlot();
+         
+         
+           });
+ 
+           // *********************** end filtered bar chart ***************************
+ 
+           // ********************** filtered donut chart *************************
+ 
+           function newDonut() {
+ 
+             var chart = new Chartist.Pie('.ct-chart', {
+               series: [returnValue(OOPercent), returnValue(ROPercent), returnValue(vacantUnitsPercent)],
+               labels: [`${returnValue(OOPercent)}% Owner Occupied`, `${returnValue(ROPercent)}% Renter Occupied`, `${returnValue(vacantUnitsPercent)}% Vacant Units`]
+             }, {
+               donut: true,
+               showLabel: true
+               // plugins: [
+               //   Chartist.plugins.fillDonut({
+               //       items: [{
+                     //     content: '<i class="fa fa-tachometer"></i>',
+                     //     position: 'bottom',
+                     //     offsetY : 10,
+                     //     offsetX: -2
+                     // }, {
+                 //         content: '<h6>crimes<span class="small">by Neighborhood</span></h6>'
+                 //     }]
+                 //   })
+                 // ],
+             });
+             
+             chart.on('draw', function(data) {
+               if(data.type === 'slice') {
+                 // Get the total path length in order to use for dash array animation
+                 var pathLength = data.element._node.getTotalLength();
+             
+                 // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+                 data.element.attr({
+                   'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+                 });
+             
+                 // Create animation definition while also assigning an ID to the animation for later sync usage
+                 var animationDefinition = {
+                   'stroke-dashoffset': {
+                     id: 'anim' + data.index,
+                     dur: 1000,
+                     from: -pathLength + 'px',
+                     to:  '0px',
+                     easing: Chartist.Svg.Easing.easeOutQuint,
+                     // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+                     fill: 'freeze'
+                   }
+                 };
+             
+                 // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+                 if(data.index !== 0) {
+                   animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+                 }
+             
+                 // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+                 data.element.attr({
+                   'stroke-dashoffset': -pathLength + 'px'
+                 });
+             
+                 // We can't use guided mode as the animations need to rely on setting begin manually
+                 // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+                 data.element.animate(animationDefinition, false);
+               }
+             });
+             
+             
+             
+             // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+             chart.on('created', function() {
+               if(window.__anim21278907124) {
+                 clearTimeout(window.__anim21278907124);
+                 window.__anim21278907124 = null;
+               }
+               window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+             });
+ 
+           }   
+           newDonut();
+           // ************************************************ end filtered donut chart ***********************************************************
+
+        }
+      });
+    }
+  }).addTo(myMap);
+});
+
+// Grabbing our GeoJSON data..
+d3.json(Minneapolis).then(function(data) {
+  console.log(data);
+  // Create a geoJSON layer with the retrieved data
+  L.geoJson(data, {
+    // Passing in our style object
+    style: style,
+    // Attempting a mouseover event
+    onEachFeature: function(feature, layer) {
+      layer.on({
+        mouseover: function(event) {
+          layer = event.target;
+          layer.setStyle({
+            fillOpacity: 0.9
+          }),
+          layer.bindTooltip(feature.properties.name,
+            {direction:'center',
+            className:'myLabelStyle',             permanent:true
+            }
+          );
+        },
+        mouseout: function(event) {
+          layer = event.target;
+          layer.setStyle({
+            fillOpacity: 0.7
+          })
+          layer.unbindTooltip();
+        },
+        click: function() {
+          // alert('Clicked on ' + feature.properties.name2)
+          var userHood = feature.properties.name;
           console.log(`You clicked on ${userHood}.`);
           function returnValue (a) {
             for ([key, value] of Object.entries(a)) {
@@ -230,40 +431,84 @@ d3.json(stPaul).then(function(data) {
               }
             }
           }
-          console.log(returnValue(population));
-          console.log(returnValue(totalHouseholds));
-          console.log(returnValue(totalHousingUnits));
-          console.log(returnValue(occupUnitsPercent));
-          console.log(returnValue(vacantUnitsPercent));
 
-          function newPlot() {
+          // **************************start filtered bar chart ****************************
+          d3.json(crime_data).then(function(data) 
+          {
+                var crimeTypeFiltered = [];
+                var crimeCountFiltered = [];
+                var crimeCountsFiltered = {};
 
-            // Create the Trace
-            var trace1 = {
-                x: ["Occupied", "Vacant", "Owner Occupied", "Renter Occupied"],
-                y: [returnValue(occupUnitsPercent), returnValue(vacantUnitsPercent), returnValue(OOPercent), returnValue(ROPercent)],
-                type: "bar",
-            };
-
+            // console.log(data);
+            data.forEach(function(crime) 
+              {
+                if (crime.Neighborhood == userHood) {
+                  crimeTypeFiltered.push(crime.Incident)
+                  crimeCountFiltered.push(crime.Count);
+          
+                  var currentcrime = crime.Incident;
+                    // If the crime has been seen before...
+                    if (currentcrime in crimeCountsFiltered) 
+                      {
+                        // Add crime count to the sum
+                        crimeCounts[currentcrime] += crime.Count;
+                      }
+                    else 
+                      {
+                      // Set the amount to first count of crime
+                      crimeCountsFiltered[currentcrime] = crime.Count;
+                      }
+                  return crimeCountsFiltered;
+                }
+              })
+              console.log(crimeCountsFiltered);
+        
+              newKeys = [];
+              newValues = [];
+        
+              for (var key in crimeCountsFiltered) {
+                newKeys.push(key);
+                newValues.push(crimeCountsFiltered[key]);
+              }
+        
+              console.log(newKeys);
+              console.log(newValues);
+        
+              function newPlot() {
+        
+                // Create the Trace
+                var trace1 = {
+                  x: newKeys,
+                  y: newValues,
+                  type: "bar",
+                };
             
-            // Create the data array for our plot
-            var data = [trace1];
+            
+                // Create the data array for our plot
+                var data = [trace1];
         
-            // Define our plot layout
-            var layout = {
-                title: `${userHood} Neighborhood Occupancy Percentages`,
-                // xaxis: {title: "Neighborhood"},
-                yaxis: {title: "Percentage Rate"}
-            };
+                // Define our plot layout
+                var layout = {
+                    title: `${userHood} Crime by Type`,
+                    // xaxis: {title: "Neighborhood"},
+                    yaxis: {title: "Total Occurrences"}
+                };
         
-            // Make responsive
-            var config = {responsive: true};
+                // Make responsive
+                var config = {responsive: true};
         
-            // Plot the chart to a div tag with id "plot1"
-            Plotly.newPlot("plot1", data, layout, config);
+                // Plot the chart to a div tag with id "plot1"
+                Plotly.newPlot("plot1", data, layout, config);
         
-          }   
-          newPlot();
+              }
+              newPlot();
+        
+        
+          });
+
+          // *********************** end filtered bar chart ***************************
+
+          // ********************** filtered donut chart *************************
 
           function newDonut() {
 
@@ -339,86 +584,7 @@ d3.json(stPaul).then(function(data) {
 
           }   
           newDonut();
-
-        }
-      });
-    }
-  }).addTo(myMap);
-});
-
-// Grabbing our GeoJSON data..
-d3.json(Minneapolis).then(function(data) {
-  console.log(data);
-  // Create a geoJSON layer with the retrieved data
-  L.geoJson(data, {
-    // Passing in our style object
-    style: style,
-    // Attempting a mouseover event
-    onEachFeature: function(feature, layer) {
-      layer.on({
-        mouseover: function(event) {
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.9
-          }),
-          layer.bindTooltip(feature.properties.name,
-            {direction:'center',
-            className:'myLabelStyle',             permanent:true
-            }
-          );
-        },
-        mouseout: function(event) {
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.7
-          })
-          layer.unbindTooltip();
-        },
-        click: function() {
-          // alert('Clicked on ' + feature.properties.name2)
-          var userHood = feature.properties.name;
-          console.log(`You clicked on ${userHood}.`);
-          function returnValue (a) {
-            for ([key, value] of Object.entries(a)) {
-              if (key == userHood) {
-                return value;
-              }
-            }
-          }
-          console.log(returnValue(population));
-          console.log(returnValue(totalHouseholds));
-          console.log(returnValue(totalHousingUnits));
-          console.log(returnValue(occupUnitsPercent));
-          console.log(returnValue(vacantUnitsPercent));
-
-          function newPlot() {
-
-            // Create the Trace
-            var trace1 = {
-                x: ["Occupied", "Vacant", "Owner Occupied", "Renter Occupied"],
-                y: [returnValue(occupUnitsPercent), returnValue(vacantUnitsPercent), returnValue(OOPercent), returnValue(ROPercent)],
-                type: "bar",
-            };
-
-            
-            // Create the data array for our plot
-            var data = [trace1];
-        
-            // Define our plot layout
-            var layout = {
-                title: `${userHood} Neighborhood Occupancy Percentages`,
-                // xaxis: {title: "Neighborhood"},
-                yaxis: {title: "Percentage Rate"}
-            };
-        
-            // Make responsive
-            var config = {responsive: true};
-        
-            // Plot the chart to a div tag with id "plot1"
-            Plotly.newPlot("plot1", data, layout, config);
-        
-          }   
-          newPlot();
+          // ************************************************ end filtered donut chart ***********************************************************
         }
       });
       // layer.bindPopup("<h5>" + feature.properties.name + "</h5><hr>" + "<h6>Population: " + feature.properties.Total_population + "</h6");
@@ -430,36 +596,80 @@ d3.json(Minneapolis).then(function(data) {
 // *********** PLOT BUILDING **********
 
 
-function buildPlot() {
+
   // we're going to put twin cities crime totals by type here
   // the filtered version will have crimte totals by type for the clicked neighborhood
+  d3.json(crime_data).then(function(data) 
+  {
+    // console.log(data);
+    data.forEach(function(crime) 
+      {
+        crimeName.push(crime.Neighborhood)
+        crimeType.push(crime.Incident)
+        crimeCount.push(crime.Count)
+        crimeYear.push(crime.Year);
 
-    // Create the Trace
-    var trace1 = {
-        x: neigborhood,
-        y: OOPercent,
-        type: "bar",
-    };
+        var currentcrime = crime.Incident;
+          // If the crime has been seen before...
+          if (currentcrime in crimeCounts) 
+            {
+              // Add crime count to the sum
+              crimeCounts[currentcrime] += crime.Count;
+            }
+          else 
+            {
+            // Set the amount to first count of crime
+            crimeCounts[currentcrime] = crime.Count;
+            }
+        return crimeCounts;
+        
+      })
+      console.log(crimeCounts);
+
+      keys = [];
+      values = [];
+
+      for (var key in crimeCounts) {
+        keys.push(key);
+        values.push(crimeCounts[key]);
+      }
+
+      console.log(keys);
+      console.log(values);
+
+      function buildPlot() {
+
+        // Create the Trace
+        var trace1 = {
+          x: keys,
+          y: values,
+          type: "bar",
+        };
     
     
-    // Create the data array for our plot
-    var data = [trace1];
+        // Create the data array for our plot
+        var data = [trace1];
 
-    // Define our plot layout
-    var layout = {
-        title: "Owner Occupancy Per Neigborhood",
-        // xaxis: {title: "Neighborhood"},
-        yaxis: {title: "Owner Occupancy (Percent)"}
-    };
+        // Define our plot layout
+        var layout = {
+            title: "Twin Cities Crime by Type",
+            // xaxis: {title: "Neighborhood"},
+            yaxis: {title: "Total Occurrences"}
+        };
 
-    // Make responsive
-    var config = {responsive: true};
+        // Make responsive
+        var config = {responsive: true};
 
-    // Plot the chart to a div tag with id "plot1"
-    Plotly.newPlot("plot1", data, layout, config);
+        // Plot the chart to a div tag with id "plot1"
+        Plotly.newPlot("plot1", data, layout, config);
 
-}
-buildPlot();
+      }
+      buildPlot();
+
+
+  });
+
+    
 
 // ***************** Donut!!! **************
 
