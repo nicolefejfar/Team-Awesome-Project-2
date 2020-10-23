@@ -4,7 +4,7 @@ console.log("Loaded map.js")
 var crime_data = "/crime_data";
 var census_data = "/census_data";
 
-// ******************************** Import and manipulate census data *****************************
+// ****************************** Import and manipulate census data **************************
 
 // Create dictionaries to hold all census data
 var neigborhood = {};
@@ -21,8 +21,6 @@ var avgROHHSize = {};
 var famHHPercent = {};
 var marriedHHPercent = {};
 var nonFamHHPercent = {};
-// var ofColorPercent = {};
-// var whitePercent = {};
 var tcTotalHousingUnits =	482702;
 var tcTotalHH =	453222;
 var tcVacantUnitPercent = 6.1
@@ -35,44 +33,25 @@ d3.json(census_data).then(function(data) {
   data.forEach(function(h) {
     var hoodName = h.Neighborhood;
     population[hoodName] = parseInt(h.Total_population);
-    // population.push(h.Neighborhood, h.Total_population);
     totalHouseholds[hoodName] = parseInt(h.Total_households);
-    // totalHouseholds.push(h.Total_households);
     totalHousingUnits[hoodName] = parseInt(h.Total_housing_units);
-    // totalHousingUnits.push(h.Total_housing_units);
     occupUnitsPercent[hoodName] = parseFloat(h.Occupied_housing_units_Share);
-    // occupUnitsPercent.push(h.Occupied_housing_units_Share);
     vacantUnitsPercent[hoodName] = parseFloat(h.Vacant_housing_units_Share);
-    // vacantUnitsPercent.push(h.Vacant_housing_units_Share);
     OOPercent[hoodName] = parseFloat(h.Owner_occupied_share);
-    // OOPercent.push(h.Owner_occupied_share);
     ROPercent[hoodName] = parseFloat(h.Renter_occupied_Share);
-    // ROPercent.push(h.Renter_occupied_Share);
     avgHHSize[hoodName] = parseInt(h.Avg_hsehld_size_occupied);
-    // avgHHSize.push(h.Avg_hsehld_size_occupied);
     avgOOHHSize[hoodName] = parseInt(h.Avg_owner_occupied_hsehld_size);
-    // avgOOHHSize.push(h.Avg_owner_occupied_hsehld_size);
     avgROHHSize[hoodName] = parseInt(h.Avg_renter_occupied_hsehld_size);
-    // avgROHHSize.push(h.Avg_renter_occupied_hsehld_size);
     famHHPercent[hoodName] = parseFloat(h.Family_households_Share);
-    // famHHPercent.push(h.Family_households_Share);
     marriedHHPercent[hoodName] = parseFloat(h.Married_fam_hsehlds_Share);
-    // marriedHHPercent.push(h.Married_fam_hsehlds_Share);
     nonFamHHPercent[hoodName] = parseFloat(h.Nonfam_hsehlds_Sharey);
-    // nonFamHHPercent.push(h.Nonfam_hsehlds_Sharey);
-    // ofColorPercent[hoodName] = parseFloat(h.Of_Color_Share);
-    // ofColorPercent.push(h.Of_Color_Share);
-    // whitePercent[hoodName] = parseFloat(h.White_Share);
-    // whitePercent.push(h.White_Share);
   })
 });
 
 // ********************************** Import and manipulate crime data ********************************
 
-// var crimeName = [];
 var crimeType = [];
 var crimeCount = [];
-// var crimeCity = [];
 var crimeYear = [];
 var crimeCounts = {};
 var nhCounts = {};
@@ -80,10 +59,8 @@ var nhCounts = {};
 d3.json(crime_data).then(function(data) {
 // console.log(data);
   data.forEach(function(crime) {
-    // crimeName.push(crime.Neighborhood)
     crimeType.push(crime.Incident)
     crimeCount.push(crime.Count)
-    // crimeCity.push(crime.City)
     crimeYear.push(crime.Year);
 
     var currentcrime2 = crime.Neighborhood;
@@ -194,16 +171,13 @@ d3.json(stPaul).then(function(data) {
           }
           // **************************** Filtered bar chart ********************************
           d3.json(crime_data).then(function(data) {
-            // var crimeNameFiltered = [];
             var crimeTypeFiltered = [];
             var crimeCountFiltered = [];
-            // var crimeCityFiltered = [];
             var crimeYearFiltered = [];
             var crimeCountsFiltered = {};  
 
             data.forEach(function(crime) {
               if (crime.Neighborhood == userHood) {
-                // crimeNameFiltered.push(crime.Neighborhood)
                 crimeTypeFiltered.push(crime.Incident)
                 crimeCountFiltered.push(crime.Count)
                 crimeYearFiltered.push(crime.Year);
@@ -271,25 +245,12 @@ d3.json(stPaul).then(function(data) {
           // *************************** Filtered donut chart *****************************
  
           function newDonut() {
- 
             var chart = new Chartist.Pie('.ct-chart', {
               series: [returnValue(OOPercent), returnValue(ROPercent), returnValue(vacantUnitsPercent)],
               labels: [`${returnValue(OOPercent)}% Owner Occupied`, `${returnValue(ROPercent)}% Renter Occupied`, `${returnValue(vacantUnitsPercent)}% Vacant Units`]
             }, {
               donut: true,
               showLabel: true
-              // plugins: [
-              //   Chartist.plugins.fillDonut({
-              //       items: [{
-                    //     content: '<i class="fa fa-tachometer"></i>',
-                    //     position: 'bottom',
-                    //     offsetY : 10,
-                    //     offsetX: -2
-                    // }, {
-                //         content: '<h6>crimes<span class="small">by Neighborhood</span></h6>'
-                //     }]
-                //   })
-                // ],
             });
              
             chart.on('draw', function(data) {
@@ -319,7 +280,7 @@ d3.json(stPaul).then(function(data) {
                 if(data.index !== 0) {
                   animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
                 }
-             
+
                 // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
                 data.element.attr({
                   'stroke-dashoffset': -pathLength + 'px'
@@ -349,7 +310,7 @@ d3.json(stPaul).then(function(data) {
 
 // ***************************** Minneapolis GeoJSON & Filtered charts ***************************************
 
-// Grabbing our GeoJSON data..
+// Grabbing our GeoJSON data
 d3.json(Minneapolis).then(function(data) {
   // Create a geoJSON layer with the retrieved data
   L.geoJson(data, {
@@ -392,17 +353,14 @@ d3.json(Minneapolis).then(function(data) {
           // ***************************** Filtered bar chart ****************************
           d3.json(crime_data).then(function(data) 
           {
-            // var crimeNameFiltered = [];
             var crimeTypeFiltered = [];
             var crimeCountFiltered = [];
-            // var crimeCityFiltered = [];
             var crimeYearFiltered = [];
             var crimeCountsFiltered = {};  
 
             // console.log(data);
             data.forEach(function(crime) {
                 if (crime.Neighborhood == userHood) {
-                  // crimeNameFiltered.push(crime.Neighborhood)
                   crimeTypeFiltered.push(crime.Incident)
                   crimeCountFiltered.push(crime.Count)
                   crimeYearFiltered.push(crime.Year);
@@ -478,18 +436,6 @@ d3.json(Minneapolis).then(function(data) {
             }, {
               donut: true,
               showLabel: true
-              // plugins: [
-              //   Chartist.plugins.fillDonut({
-              //       items: [{
-                    //     content: '<i class="fa fa-tachometer"></i>',
-                    //     position: 'bottom',
-                    //     offsetY : 10,
-                    //     offsetX: -2
-                    // }, {
-                //         content: '<h6>crimes<span class="small">by Neighborhood</span></h6>'
-                //     }]
-                //   })
-                // ],
             });
             
             chart.on('draw', function(data) {
@@ -621,18 +567,6 @@ var chart = new Chartist.Pie('.ct-chart', {
 }, {
   donut: true,
   showLabel: true
-  // plugins: [
-  //   Chartist.plugins.fillDonut({
-  //       items: [{
-        //     content: '<i class="fa fa-tachometer"></i>',
-        //     position: 'bottom',
-        //     offsetY : 10,
-        //     offsetX: -2
-        // }, {
-    //         content: '<h6>crimes<span class="small">by Neighborhood</span></h6>'
-    //     }]
-    //   })
-    // ],
 });
 
 chart.on('draw', function(data) {
