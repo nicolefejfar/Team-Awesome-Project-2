@@ -241,11 +241,11 @@ d3.json(Minneapolis).then(function(data) {
 
             // Create the Trace
             var trace1 = {
-                x: ["Occupied", "Vacant", "Owner Occupied"],
-                y: [returnValue(occupUnitsPercent), returnValue(vacantUnitsPercent)],
+                x: ["Occupied", "Vacant", "Owner Occupied", "Renter Occupied"],
+                y: [returnValue(occupUnitsPercent), returnValue(vacantUnitsPercent), returnValue(OOPercent), returnValue(ROPercent)],
                 type: "bar",
             };
-            
+
             
             // Create the data array for our plot
             var data = [trace1];
