@@ -67,8 +67,7 @@ d3.json(census_data).then(function(data) {
   })
 });
 
-
-// *************************************** Import and manipulate crime data ********************************
+// ********************************** Import and manipulate crime data ********************************
 
 // var crimeName = [];
 var crimeType = [];
@@ -120,7 +119,8 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   maxZoom: 13,
   minZoom: 11,
   zoomOffset: -1,
-  id: "mapbox/streets-v11",
+  id: "mapbox/light-v10",
+  // id options: light-v10, dark-v10, streets-v11, satellite-v9
   accessToken: API_KEY
 }).addTo(myMap);
   
@@ -151,7 +151,7 @@ function style(feature) {
   };
 }
 
-// ***************************** St. Paul GeoJSON & Filtered charts ***************************************
+// ***************************** St. Paul GeoJSON & Filtered charts **********************************
 
 // Grabbing our GeoJSON data..
 d3.json(stPaul).then(function(data) {
@@ -238,6 +238,9 @@ d3.json(stPaul).then(function(data) {
               x: newKeys,
               y: newValues,
               type: "bar",
+              marker: {
+                color: 'rgb(124, 109, 167'
+              }
             };
           
             // Create the data array for our plot
@@ -245,9 +248,15 @@ d3.json(stPaul).then(function(data) {
     
             // Define our plot layout
             var layout = {
-                title: `${userHood} Crime by Type, 2018-2020`,
-                yaxis: {title: "Total Occurrences"}
-            };
+              title: {
+                text: "Twin Cities Crime by Type, 2018-2020",
+                font: {
+                  color: 'rgb(105, 34, 107)',
+                  size: 18
+                }
+              },
+              yaxis: {title: "Total Occurrences"}
+          };
       
             // Make responsive
             var config = {responsive: true};
@@ -328,7 +337,7 @@ d3.json(stPaul).then(function(data) {
                 clearTimeout(window.__anim21278907124);
                 window.__anim21278907124 = null;
               }
-              window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+              window.__anim21278907124 = setTimeout(chart.update.bind(chart), 70000);
             });
           }   
           newDonut();
@@ -428,6 +437,9 @@ d3.json(Minneapolis).then(function(data) {
                   x: newKeys,
                   y: newValues,
                   type: "bar",
+                  marker: {
+                    color: 'rgb(124, 109, 167'
+                  }
                 };
           
                 // Create the data array for our plot
@@ -435,10 +447,15 @@ d3.json(Minneapolis).then(function(data) {
         
                 // Define our plot layout
                 var layout = {
-                    title: `${userHood} Crime by Type, 2018-2020`,
-                    // xaxis: {title: "Neighborhood"},
-                    yaxis: {title: "Total Occurrences"}
-                };
+                  title: {
+                    text: "Twin Cities Crime by Type, 2018-2020",
+                    font: {
+                      color: 'rgb(105, 34, 107)',
+                      size: 18
+                    }
+                  },
+                  yaxis: {title: "Total Occurrences"}
+              };
         
                 // Make responsive
                 var config = {responsive: true};
@@ -456,7 +473,8 @@ d3.json(Minneapolis).then(function(data) {
 
             var chart = new Chartist.Pie('.ct-chart', {
               series: [returnValue(OOPercent), returnValue(ROPercent), returnValue(vacantUnitsPercent)],
-              labels: [`${returnValue(OOPercent)}% Owner-Occupied`, `${returnValue(ROPercent)}% Renter-Occupied`, `${returnValue(vacantUnitsPercent)}% Vacant`]
+              labels: [`${returnValue(OOPercent)}% Owner-Occupied`, `${returnValue(ROPercent)}% Renter-Occupied`, `${returnValue(vacantUnitsPercent)}% Vacant`],
+              colors: ["#f00","#f0f","#00f"],
             }, {
               donut: true,
               showLabel: true
@@ -519,7 +537,7 @@ d3.json(Minneapolis).then(function(data) {
                 clearTimeout(window.__anim21278907124);
                 window.__anim21278907124 = null;
               }
-              window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+              window.__anim21278907124 = setTimeout(chart.update.bind(chart), 70000);
             });
           }   
           newDonut();
@@ -566,6 +584,9 @@ d3.json(crime_data).then(function(data) {
       x: keys,
       y: values,
       type: "bar",
+      marker: {
+        color: 'rgb(124, 109, 167'
+      }
     };
     
     // Create the data array for our plot
@@ -573,7 +594,13 @@ d3.json(crime_data).then(function(data) {
 
     // Define our plot layout
     var layout = {
-        title: "Twin Cities Crime by Type, 2018-2020",
+        title: {
+          text: "Twin Cities Crime by Type, 2018-2020",
+          font: {
+            color: 'rgb(105, 34, 107)',
+            size: 18
+          }
+        },
         yaxis: {title: "Total Occurrences"}
     };
 
@@ -587,14 +614,6 @@ d3.json(crime_data).then(function(data) {
   });
 
 // ************************** Initialize Twin Cities Donut *****************************
-
-var tcTotalHousingUnits =	482702;
-var tcTotalHH =	453222;
-var tcVacantUnitPercent = 6.1
-var tcOccupiedUnitPercent =	93.9
-var tcOOPercent =	94.0
-var tcROPercent =	6.0
-
 
 var chart = new Chartist.Pie('.ct-chart', {
   series: [tcOOPercent, tcROPercent, tcVacantUnitPercent],
@@ -661,5 +680,5 @@ chart.on('created', function() {
     clearTimeout(window.__anim21278907124);
     window.__anim21278907124 = null;
   }
-  window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+  window.__anim21278907124 = setTimeout(chart.update.bind(chart), 70000);
 });
