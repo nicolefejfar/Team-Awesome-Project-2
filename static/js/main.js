@@ -21,8 +21,14 @@ var avgROHHSize = {};
 var famHHPercent = {};
 var marriedHHPercent = {};
 var nonFamHHPercent = {};
-var ofColorPercent = {};
-var whitePercent = {};
+// var ofColorPercent = {};
+// var whitePercent = {};
+var tcTotalHousingUnits =	482702;
+var tcTotalHH =	453222;
+var tcVacantUnitPercent = 6.1
+var tcOccupiedUnitPercent =	93.9
+var tcOOPercent =	94.0
+var tcROPercent =	6.0
 
 // Populate the arrays
 d3.json(census_data).then(function(data) {
@@ -54,19 +60,20 @@ d3.json(census_data).then(function(data) {
     // marriedHHPercent.push(h.Married_fam_hsehlds_Share);
     nonFamHHPercent[hoodName] = parseFloat(h.Nonfam_hsehlds_Sharey);
     // nonFamHHPercent.push(h.Nonfam_hsehlds_Sharey);
-    ofColorPercent[hoodName] = parseFloat(h.Of_Color_Share);
+    // ofColorPercent[hoodName] = parseFloat(h.Of_Color_Share);
     // ofColorPercent.push(h.Of_Color_Share);
-    whitePercent[hoodName] = parseFloat(h.White_Share);
+    // whitePercent[hoodName] = parseFloat(h.White_Share);
     // whitePercent.push(h.White_Share);
   })
 });
+
 
 // *************************************** Import and manipulate crime data ********************************
 
 // var crimeName = [];
 var crimeType = [];
 var crimeCount = [];
-var crimeCity = [];
+// var crimeCity = [];
 var crimeYear = [];
 var crimeCounts = {};
 var nhCounts = {};
@@ -77,7 +84,7 @@ d3.json(crime_data).then(function(data) {
     // crimeName.push(crime.Neighborhood)
     crimeType.push(crime.Incident)
     crimeCount.push(crime.Count)
-    crimeCity.push(crime.City)
+    // crimeCity.push(crime.City)
     crimeYear.push(crime.Year);
 
     var currentcrime2 = crime.Neighborhood;
@@ -93,14 +100,6 @@ d3.json(crime_data).then(function(data) {
     return nhCounts;
   })
 });
-
-// Validate
-// console.log(crimeName);
-// console.log(crimeType);
-// console.log(crimeCount);
-// console.log(crimeYear);
-// console.log(crimeCounts);
-// console.log(nhCounts);
 
 // *********************************** Create Map Object **********************************
 
@@ -155,8 +154,7 @@ function style(feature) {
 // ***************************** St. Paul GeoJSON & Filtered charts ***************************************
 
 // Grabbing our GeoJSON data..
-d3.json(stPaul).then(function(data) {  
-  console.log(data);
+d3.json(stPaul).then(function(data) {
   // Create a geoJSON layer with the retrieved data
   L.geoJson(data, {
     // Passing in our style object
@@ -185,7 +183,6 @@ d3.json(stPaul).then(function(data) {
           layer.unbindTooltip();
         },
         click: function() {
-          // alert('Clicked on ' + feature.properties.name2)
           var userHood = feature.properties.name2;
           console.log(userHood);
           function returnValue (a) {
@@ -233,8 +230,6 @@ d3.json(stPaul).then(function(data) {
               newKeys.push(key);
               newValues.push(crimeCountsFiltered[key]);
             }
-            // console.log(newKeys);
-            // console.log(newValues);
       
             function newPlot() {
       
@@ -347,7 +342,6 @@ d3.json(stPaul).then(function(data) {
 
 // Grabbing our GeoJSON data..
 d3.json(Minneapolis).then(function(data) {
-  console.log(data);
   // Create a geoJSON layer with the retrieved data
   L.geoJson(data, {
     // Passing in our style object
@@ -376,9 +370,8 @@ d3.json(Minneapolis).then(function(data) {
           layer.unbindTooltip();
         },
         click: function() {
-          // alert('Clicked on ' + feature.properties.name2)
           var userHood = feature.properties.name;
-          console.log(`You clicked on ${userHood}.`);
+          console.log(userHood);
           function returnValue (a) {
             for ([key, value] of Object.entries(a)) {
               if (key == userHood) {
@@ -393,7 +386,7 @@ d3.json(Minneapolis).then(function(data) {
             // var crimeNameFiltered = [];
             var crimeTypeFiltered = [];
             var crimeCountFiltered = [];
-            var crimeCityFiltered = [];
+            // var crimeCityFiltered = [];
             var crimeYearFiltered = [];
             var crimeCountsFiltered = {};  
 
@@ -418,7 +411,6 @@ d3.json(Minneapolis).then(function(data) {
                   return crimeCountsFiltered;
                 }
               })
-              console.log(crimeCountsFiltered);
         
               newKeys = [];
               newValues = [];
@@ -427,12 +419,10 @@ d3.json(Minneapolis).then(function(data) {
                 newKeys.push(key);
                 newValues.push(crimeCountsFiltered[key]);
               }
-        
-              // console.log(newKeys);
-              // console.log(newValues);
-        
+              
+              console.log(crimeCountsFiltered);
+
               function newPlot() {
-        
                 // Create the Trace
                 var trace1 = {
                   x: newKeys,
@@ -466,7 +456,7 @@ d3.json(Minneapolis).then(function(data) {
 
             var chart = new Chartist.Pie('.ct-chart', {
               series: [returnValue(OOPercent), returnValue(ROPercent), returnValue(vacantUnitsPercent)],
-              labels: [`${returnValue(OOPercent)}% Owner Occupied`, `${returnValue(ROPercent)}% Renter Occupied`, `${returnValue(vacantUnitsPercent)}% Vacant Units`]
+              labels: [`${returnValue(OOPercent)}% Owner-Occupied`, `${returnValue(ROPercent)}% Renter-Occupied`, `${returnValue(vacantUnitsPercent)}% Vacant`]
             }, {
               donut: true,
               showLabel: true
@@ -540,6 +530,7 @@ d3.json(Minneapolis).then(function(data) {
 });
 
 // ************************** Initialize Twin Cities Bar Graph *****************************
+console.log('Twin Cities Crime')
 
 d3.json(crime_data).then(function(data) {
   data.forEach(function(crime) {
@@ -597,11 +588,17 @@ d3.json(crime_data).then(function(data) {
 
 // ************************** Initialize Twin Cities Donut *****************************
 
+var tcTotalHousingUnits =	482702;
+var tcTotalHH =	453222;
+var tcVacantUnitPercent = 6.1
+var tcOccupiedUnitPercent =	93.9
+var tcOOPercent =	94.0
+var tcROPercent =	6.0
+
+
 var chart = new Chartist.Pie('.ct-chart', {
-  // series: [Object.values(nhCounts)],
-  // labels: [Object.keys(nhCounts)]
-  series: [10, 20, 50, 20, 5, 50, 15],
-  labels: [1, 2, 3, 4, 5, 6, 7]
+  series: [tcOOPercent, tcROPercent, tcVacantUnitPercent],
+  labels: [`${tcOOPercent}% Owner-Occupied`, `${tcROPercent}% Renter-Occupied`, `${tcVacantUnitPercent}% Vacant`]
 }, {
   donut: true,
   showLabel: true
