@@ -74,12 +74,29 @@ console.log(crimeYear);
 console.log(crimeCounts);
 console.log(nhCounts);
 
+var neighborhoods_key = Object.keys(nhCounts);  
+console.log(neighborhoods_key);
+
 var chart = new Chartist.Pie('.ct-chart', {
+  // series: [Object.values(nhCounts)],
+  // labels: [Object.keys(nhCounts)]
   series: [10, 20, 50, 20, 5, 50, 15],
   labels: [1, 2, 3, 4, 5, 6, 7]
 }, {
   donut: true,
   showLabel: true
+  // plugins: [
+  //   Chartist.plugins.fillDonut({
+  //       items: [{
+        //     content: '<i class="fa fa-tachometer"></i>',
+        //     position: 'bottom',
+        //     offsetY : 10,
+        //     offsetX: -2
+        // }, {
+    //         content: '<h6>crimes<span class="small">by Neighborhood</span></h6>'
+    //     }]
+    //   })
+    // ],
 });
 
 chart.on('draw', function(data) {
@@ -120,6 +137,8 @@ chart.on('draw', function(data) {
     data.element.animate(animationDefinition, false);
   }
 });
+
+
 
 // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
 chart.on('created', function() {
