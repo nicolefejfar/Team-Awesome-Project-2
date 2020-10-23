@@ -44,13 +44,8 @@ width: 100%;}
     color: rgb(105, 34, 107);
     font-weight: bold;
     padding: 2px;
-
 }
 
-/* .navbar .navbar-brand {
-    background-color: #b84d64;
-    color: white;
-    font-size: 25px;
-    font-weight: bold;
-    padding-left: 10px;
-    padding-right: 10px;} */
+.navbar .navbar-brand {
+    color: rgb(112, 110, 112);
+    font-size: 20px;}
