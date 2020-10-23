@@ -1,6 +1,5 @@
 console.log("Loaded map.js")
 
-
 // Look to our flask-served census database
 var crime_data = "/crime_data";
 var census_data = "/census_data";
@@ -103,34 +102,34 @@ var nhCounts = {};
 
 //   });
 
-  d3.json(crime_data).then(function(data) 
+d3.json(crime_data).then(function(data) 
+{
+// console.log(data);
+data.forEach(function(crime) 
   {
-  // console.log(data);
-  data.forEach(function(crime) 
-    {
-      crimeName.push(crime.Neighborhood)
-      crimeType.push(crime.Incident)
-      crimeCount.push(crime.Count)
-      crimeCity.push(crime.City)
-      crimeYear.push(crime.Year);
+    crimeName.push(crime.Neighborhood)
+    crimeType.push(crime.Incident)
+    crimeCount.push(crime.Count)
+    crimeCity.push(crime.City)
+    crimeYear.push(crime.Year);
 
-      var currentcrime2 = crime.Neighborhood;
-        // If the crime has been seen before...
-        if (currentcrime2 in nhCounts) 
-          {
-            // Add crime count to the sum
-            nhCounts[currentcrime2] += crime.Count;
-          }
-        else 
-          {
-      //       // Set the amount to first count of crime
-            nhCounts[currentcrime2] = crime.Count;
-          }
-          
-      return nhCounts;
-      
-    })
-  });
+    var currentcrime2 = crime.Neighborhood;
+      // If the crime has been seen before...
+      if (currentcrime2 in nhCounts) 
+        {
+          // Add crime count to the sum
+          nhCounts[currentcrime2] += crime.Count;
+        }
+      else 
+        {
+    //       // Set the amount to first count of crime
+          nhCounts[currentcrime2] = crime.Count;
+        }
+        
+    return nhCounts;
+    
+  })
+});
 
 //  Check your numbers.
 console.log(crimeName);
@@ -203,6 +202,7 @@ d3.json(stPaul).then(function(data) {
     style: style,
     // Mouseover event
     onEachFeature: function(feature, layer) {
+      layer.bindPopup(`<h6> ${feature.properties.name2} </h6><hr><p>Population: ${feature.properties.Total_population}<br>Housing Units: ${feature.properties.Total_housing_units}<br>Average Household Size: ${feature.properties.Avg_hsehld_size_occupied}</p>`);
       layer.on({
         mouseover: function(event) {
           layer = event.target;
@@ -210,7 +210,9 @@ d3.json(stPaul).then(function(data) {
             fillOpacity: 0.9
           }),
           layer.bindTooltip(feature.properties.name2,
-            {className:'myLabelStyle',             permanent:true,
+            {direction:'center',
+            className:'myLabelStyle',
+            permanent:true,
             }
           );
         },
@@ -312,6 +314,7 @@ d3.json(stPaul).then(function(data) {
           });
 
           // *********************** end filtered bar chart ***************************
+
  
            // ********************** filtered donut chart *************************
  
@@ -376,8 +379,6 @@ d3.json(stPaul).then(function(data) {
                }
              });
              
-             
-             
              // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
              chart.on('created', function() {
                if(window.__anim21278907124) {
@@ -386,11 +387,9 @@ d3.json(stPaul).then(function(data) {
                }
                window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
              });
- 
            }   
            newDonut();
            // ************************************************ end filtered donut chart ***********************************************************
-
         }
       });
     }
@@ -404,8 +403,9 @@ d3.json(Minneapolis).then(function(data) {
   L.geoJson(data, {
     // Passing in our style object
     style: style,
-    // Attempting a mouseover event
+    // Add a mouseover event
     onEachFeature: function(feature, layer) {
+      layer.bindPopup(`<h6> ${feature.properties.name} </h6><hr><p>Population: ${feature.properties.Total_population}<br>Housing Units: ${feature.properties.Total_housing_units}<br>Average Household Size: ${feature.properties.Avg_hsehld_size_occupied}</p>`);
       layer.on({
         mouseover: function(event) {
           layer = event.target;
@@ -414,7 +414,8 @@ d3.json(Minneapolis).then(function(data) {
           }),
           layer.bindTooltip(feature.properties.name,
             {direction:'center',
-            className:'myLabelStyle',             permanent:true
+            className:'myLabelStyle',
+            permanent:true
             }
           );
         },
@@ -436,6 +437,7 @@ d3.json(Minneapolis).then(function(data) {
               }
             }
           }
+
 
           // **************************start filtered bar chart ****************************
           d3.json(crime_data).then(function(data) 
