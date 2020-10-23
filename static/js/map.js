@@ -5,7 +5,7 @@ console.log("Loaded map.js")
 var crime_data = "/crime_data";
 var census_data = "/census_data";
 
-// Create arrays to hold all census data
+// Create dictionaries to hold all census data
 var neigborhood = {};
 var population = {};
 var totalHouseholds = {};
@@ -156,6 +156,36 @@ d3.json(stPaul).then(function(data) {
           console.log(returnValue(occupUnitsPercent));
           console.log(returnValue(vacantUnitsPercent));
 
+          function newPlot() {
+
+            // Create the Trace
+            var trace1 = {
+                x: ["Occupied", "Vacant", "Owner Occupied", "Renter Occupied"],
+                y: [returnValue(occupUnitsPercent), returnValue(vacantUnitsPercent), returnValue(OOPercent), returnValue(ROPercent)],
+                type: "bar",
+            };
+
+            
+            // Create the data array for our plot
+            var data = [trace1];
+        
+            // Define our plot layout
+            var layout = {
+                title: `${userHood} Neighborhood Occupancy Percentages`,
+                // xaxis: {title: "Neighborhood"},
+                yaxis: {title: "Percentage Rate"}
+            };
+        
+            // Make responsive
+            var config = {responsive: true};
+        
+            // Plot the chart to a div tag with id "plot1"
+            Plotly.newPlot("plot1", data, layout, config);
+        
+          }   
+          newPlot();
+
+
         }
       });
     }
@@ -206,6 +236,35 @@ d3.json(Minneapolis).then(function(data) {
           console.log(returnValue(totalHousingUnits));
           console.log(returnValue(occupUnitsPercent));
           console.log(returnValue(vacantUnitsPercent));
+
+          function newPlot() {
+
+            // Create the Trace
+            var trace1 = {
+                x: ["Occupied", "Vacant", "Owner Occupied"],
+                y: [returnValue(occupUnitsPercent), returnValue(vacantUnitsPercent)],
+                type: "bar",
+            };
+            
+            
+            // Create the data array for our plot
+            var data = [trace1];
+        
+            // Define our plot layout
+            var layout = {
+                title: `${userHood} Neighborhood Occupancy Percentages`,
+                // xaxis: {title: "Neighborhood"},
+                yaxis: {title: "Percentage Rate"}
+            };
+        
+            // Make responsive
+            var config = {responsive: true};
+        
+            // Plot the chart to a div tag with id "plot1"
+            Plotly.newPlot("plot1", data, layout, config);
+        
+          }   
+          newPlot();
         }
       });
       // layer.bindPopup("<h5>" + feature.properties.name + "</h5><hr>" + "<h6>Population: " + feature.properties.Total_population + "</h6");
