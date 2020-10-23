@@ -1,15 +1,30 @@
 h2 {text-align: center;
-    color: rgb(105, 34, 107)}
+    color: rgb(105, 34, 107);}
 h4 {text-align: center;
-    color: rgb(105, 34, 107)}
+    color: rgb(105, 34, 107);}
 h5 {text-align: center;
-    color: rgb(105, 34, 107)}
+    color: rgb(105, 34, 107);}
 h6 {text-align: center;
-    color: rgb(105, 34, 107)}
+    color: rgb(105, 34, 107);}
 p {text-align: center;
-    color: rgb(105, 34, 107)}
+    color: rgb(105, 34, 107);}
 
-#map {height: 600px;
+.ct-chart {stroke: black;
+    font-weight: lighter;}
+.ct-series-a .ct-slice-donut {
+    stroke: rgb(158, 121, 179);
+    stroke-width: 20px;
+    }
+.ct-series-b .ct-slice-donut {
+    stroke: rgb(167, 158, 218);
+    stroke-width: 20px;
+    }
+.ct-series-c .ct-slice-donut {
+    stroke: rgb(184, 184, 221);
+    stroke-width: 20px;
+    }
+
+#map {height: 700px;
       width: 100%;}
 
 .container {margin-top: 50px;
@@ -20,8 +35,8 @@ width: 100%;}
     width: 100%;
 }
 
-#plot2 {
-    height: 400px;
+.ct-chart {
+    height: 310px;
     width: 100%;
 }
 
@@ -29,9 +44,7 @@ width: 100%;}
     color: rgb(105, 34, 107);
     font-weight: bold;
     padding: 2px;
-    /* background-color: rgba(255,255,255,0);
-    border: none;
-    box-shadow: none; */
+
 }
 
 /* .navbar .navbar-brand {
