@@ -72,4 +72,3 @@ function buildPlot2() {
     });
 }
 buildPlot2();
-
