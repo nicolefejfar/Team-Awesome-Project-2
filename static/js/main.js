@@ -232,81 +232,86 @@ d3.json(stPaul).then(function(data) {
               }
             }
           }
-           // **************************start filtered bar chart ****************************
-           d3.json(crime_data).then(function(data) 
-           {
-                 var crimeTypeFiltered = [];
-                 var crimeCountFiltered = [];
-                 var crimeCountsFiltered = {};
- 
-             // console.log(data);
-             data.forEach(function(crime) 
-               {
-                 if (crime.Neighborhood == userHood) {
-                   crimeTypeFiltered.push(crime.Incident)
-                   crimeCountFiltered.push(crime.Count);
-           
-                   var currentcrime = crime.Incident;
-                     // If the crime has been seen before...
-                     if (currentcrime in crimeCountsFiltered) 
-                       {
-                         // Add crime count to the sum
-                         crimeCounts[currentcrime] += crime.Count;
-                       }
-                     else 
-                       {
-                       // Set the amount to first count of crime
-                       crimeCountsFiltered[currentcrime] = crime.Count;
-                       }
-                   return crimeCountsFiltered;
-                 }
-               })
-               console.log(crimeCountsFiltered);
-         
-               newKeys = [];
-               newValues = [];
-         
-               for (var key in crimeCountsFiltered) {
-                 newKeys.push(key);
-                 newValues.push(crimeCountsFiltered[key]);
-               }
-         
-               console.log(newKeys);
-               console.log(newValues);
-         
-               function newPlot() {
-         
-                 // Create the Trace
-                 var trace1 = {
-                   x: newKeys,
-                   y: newValues,
-                   type: "bar",
-                 };
-             
-             
-                 // Create the data array for our plot
-                 var data = [trace1];
-         
-                 // Define our plot layout
-                 var layout = {
-                     title: `${userHood} Crime by Type`,
-                     // xaxis: {title: "Neighborhood"},
-                     yaxis: {title: "Total Occurrences"}
-                 };
-         
-                 // Make responsive
-                 var config = {responsive: true};
-         
-                 // Plot the chart to a div tag with id "plot1"
-                 Plotly.newPlot("plot1", data, layout, config);
-         
-               }
-               newPlot();
-         
-         
-           });
- 
-           // *********************** end filtered bar chart ***************************
+          // ***********************start filtered bar chart********************************
+          d3.json(crime_data).then(function(data) 
+          {
+            var crimeNameFiltered = [];
+            var crimeTypeFiltered = [];
+            var crimeCountFiltered = [];
+            var crimeCityFiltered = [];
+            var crimeYearFiltered = [];
+            var crimeCountsFiltered = {};  
+
+            // console.log(data);
+            data.forEach(function(crime) 
+              {
+                if (crime.Neighborhood == userHood) {
+                  crimeNameFiltered.push(crime.Neighborhood)
+                  crimeTypeFiltered.push(crime.Incident)
+                  crimeCountFiltered.push(crime.Count)
+                  crimeYearFiltered.push(crime.Year);
+          
+                  var currentcrime = crime.Incident;
+                    // If the crime has been seen before...
+                    if (currentcrime in crimeCountsFiltered) 
+                      {
+                        // Add crime count to the sum
+                        crimeCountsFiltered[currentcrime] += crime.Count;
+                      }
+                    else 
+                      {
+                      // Set the amount to first count of crime
+                      crimeCountsFiltered[currentcrime] = crime.Count;
+                      }
+                  return crimeCountsFiltered;
+                }
+              })
+              console.log(crimeCountsFiltered);
+        
+              newKeys = [];
+              newValues = [];
+        
+              for (var key in crimeCountsFiltered) {
+                newKeys.push(key);
+                newValues.push(crimeCountsFiltered[key]);
+              }
+        
+              console.log(newKeys);
+              console.log(newValues);
+        
+              function newPlot() {
+        
+                // Create the Trace
+                var trace1 = {
+                  x: newKeys,
+                  y: newValues,
+                  type: "bar",
+                };
+            
+            
+                // Create the data array for our plot
+                var data = [trace1];
+        
+                // Define our plot layout
+                var layout = {
+                    title: `${userHood} Crime by Type, 2018-2020`,
+                    // xaxis: {title: "Neighborhood"},
+                    yaxis: {title: "Total Occurrences"}
+                };
+        
+                // Make responsive
+                var config = {responsive: true};
+        
+                // Plot the chart to a div tag with id "plot1"
+                Plotly.newPlot("plot1", data, layout, config);
+        
+              }
+              newPlot();
+        
+        
+          });
+
+          // *********************** end filtered bar chart ***************************
  
            // ********************** filtered donut chart *************************
  
@@ -435,23 +440,28 @@ d3.json(Minneapolis).then(function(data) {
           // **************************start filtered bar chart ****************************
           d3.json(crime_data).then(function(data) 
           {
-                var crimeTypeFiltered = [];
-                var crimeCountFiltered = [];
-                var crimeCountsFiltered = {};
+            var crimeNameFiltered = [];
+            var crimeTypeFiltered = [];
+            var crimeCountFiltered = [];
+            var crimeCityFiltered = [];
+            var crimeYearFiltered = [];
+            var crimeCountsFiltered = {};  
 
             // console.log(data);
             data.forEach(function(crime) 
               {
                 if (crime.Neighborhood == userHood) {
+                  crimeNameFiltered.push(crime.Neighborhood)
                   crimeTypeFiltered.push(crime.Incident)
-                  crimeCountFiltered.push(crime.Count);
+                  crimeCountFiltered.push(crime.Count)
+                  crimeYearFiltered.push(crime.Year);
           
                   var currentcrime = crime.Incident;
                     // If the crime has been seen before...
                     if (currentcrime in crimeCountsFiltered) 
                       {
                         // Add crime count to the sum
-                        crimeCounts[currentcrime] += crime.Count;
+                        crimeCountsFiltered[currentcrime] += crime.Count;
                       }
                     else 
                       {
@@ -489,7 +499,7 @@ d3.json(Minneapolis).then(function(data) {
         
                 // Define our plot layout
                 var layout = {
-                    title: `${userHood} Crime by Type`,
+                    title: `${userHood} Crime by Type, 2018-2020`,
                     // xaxis: {title: "Neighborhood"},
                     yaxis: {title: "Total Occurrences"}
                 };
@@ -652,7 +662,7 @@ d3.json(Minneapolis).then(function(data) {
 
         // Define our plot layout
         var layout = {
-            title: "Twin Cities Crime by Type",
+            title: "Twin Cities Crime by Type, 2018-2020",
             // xaxis: {title: "Neighborhood"},
             yaxis: {title: "Total Occurrences"}
         };
@@ -669,7 +679,7 @@ d3.json(Minneapolis).then(function(data) {
 
   });
 
-    
+    // ******************end bar plot*****************************
 
 // ***************** Donut!!! **************
 
