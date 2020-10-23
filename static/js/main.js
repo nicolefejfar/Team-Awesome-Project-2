@@ -1,10 +1,10 @@
 console.log("Loaded map.js")
 
-// Look to our flask-served census database
+// Look to our flask-served databases
 var crime_data = "/crime_data";
 var census_data = "/census_data";
 
-// ******************************** start working with census data *****************************
+// ******************************** Import and manipulate census data *****************************
 
 // Create dictionaries to hold all census data
 var neigborhood = {};
@@ -12,7 +12,7 @@ var population = {};
 var totalHouseholds = {};
 var totalHousingUnits = {};
 var occupUnitsPercent = {};
-var vacantUnitsPercent ={};
+var vacantUnitsPercent = {};
 var OOPercent = {};
 var ROPercent = {};
 var avgHHSize = {};
@@ -61,10 +61,9 @@ d3.json(census_data).then(function(data) {
   })
 });
 
-// ***************************************** end work on importing census data *****************************************
+// *************************************** Import and manipulate crime data ********************************
 
-// ***************************************** import and manipulate crime data ********************************
-var crimeName = [];
+// var crimeName = [];
 var crimeType = [];
 var crimeCount = [];
 var crimeCity = [];
@@ -72,77 +71,38 @@ var crimeYear = [];
 var crimeCounts = {};
 var nhCounts = {};
 
-// d3.json(crime_data).then(function(data) 
-//   {
-//   // console.log(data);
-//   data.forEach(function(crime) 
-//     {
-//       crimeName.push(crime.Neighborhood)
-//       crimeType.push(crime.Incident)
-//       crimeCount.push(crime.Count)
-//       crimeYear.push(crime.Year);
-
-//       var currentcrime = crime.Incident;
-//         // If the crime has been seen before...
-//         if (currentcrime in crimeCounts) 
-//           {
-//             // Add crime count to the sum
-//             crimeCounts[currentcrime] += crime.Count;
-//           }
-//         else 
-//           {
-//            // Set the amount to first count of crime
-//           crimeCounts[currentcrime] = crime.Count;
-//           }
-//       return crimeCounts;
-      
-//     })
-//     console.log(crimeType);
-//     console.log(crimeCounts);
-
-//   });
-
-d3.json(crime_data).then(function(data) 
-{
+d3.json(crime_data).then(function(data) {
 // console.log(data);
-data.forEach(function(crime) 
-  {
-    crimeName.push(crime.Neighborhood)
+  data.forEach(function(crime) {
+    // crimeName.push(crime.Neighborhood)
     crimeType.push(crime.Incident)
     crimeCount.push(crime.Count)
     crimeCity.push(crime.City)
     crimeYear.push(crime.Year);
 
     var currentcrime2 = crime.Neighborhood;
-      // If the crime has been seen before...
-      if (currentcrime2 in nhCounts) 
-        {
-          // Add crime count to the sum
-          nhCounts[currentcrime2] += crime.Count;
-        }
-      else 
-        {
-    //       // Set the amount to first count of crime
-          nhCounts[currentcrime2] = crime.Count;
-        }
-        
+    // If the crime has been seen before...
+    if (currentcrime2 in nhCounts) {
+      // Add crime count to the sum
+      nhCounts[currentcrime2] += crime.Count;
+      }
+    else {
+      // Set the amount to first count of crime
+      nhCounts[currentcrime2] = crime.Count;
+      }
     return nhCounts;
-    
   })
 });
 
-//  Check your numbers.
-console.log(crimeName);
-console.log(crimeType);
-console.log(crimeCount);
-console.log(crimeYear);
-console.log(crimeCounts);
-console.log(nhCounts);
+// Validate
+// console.log(crimeName);
+// console.log(crimeType);
+// console.log(crimeCount);
+// console.log(crimeYear);
+// console.log(crimeCounts);
+// console.log(nhCounts);
 
-var neighborhoods_key = Object.keys(nhCounts);  
-console.log(neighborhoods_key);
-
-// ***************************************** end work on importing crime data *****************************************
+// *********************************** Create Map Object **********************************
 
 // Creating map object
 var myMap = L.map("map", {
@@ -165,12 +125,11 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   accessToken: API_KEY
 }).addTo(myMap);
   
-// Use this link to get the geojson data.
+// Get St. Paul GeoJSON data
 var stPaul = "static/data/StPaul_Census.geojson";
-// repeat with Minneapolis Neighborhoods
+// Get Minneapolis GeoJSON data
 var Minneapolis = "static/data/Minneapolis_Census.geojson"
  
-
 function getColor(d) {
   return d > 60000 ? '#4d004b' :
         d > 30000 ? '#810f7c' :
@@ -192,7 +151,9 @@ function style(feature) {
     fillOpacity: 0.7
   };
 }
-  
+
+// ***************************** St. Paul GeoJSON & Filtered charts ***************************************
+
 // Grabbing our GeoJSON data..
 d3.json(stPaul).then(function(data) {  
   console.log(data);
@@ -234,167 +195,155 @@ d3.json(stPaul).then(function(data) {
               }
             }
           }
-          // ***********************start filtered bar chart********************************
-          d3.json(crime_data).then(function(data) 
-          {
-            var crimeNameFiltered = [];
+          // **************************** Filtered bar chart ********************************
+          d3.json(crime_data).then(function(data) {
+            // var crimeNameFiltered = [];
             var crimeTypeFiltered = [];
             var crimeCountFiltered = [];
-            var crimeCityFiltered = [];
+            // var crimeCityFiltered = [];
             var crimeYearFiltered = [];
             var crimeCountsFiltered = {};  
 
-            // console.log(data);
-            data.forEach(function(crime) 
-              {
-                if (crime.Neighborhood == userHood) {
-                  crimeNameFiltered.push(crime.Neighborhood)
-                  crimeTypeFiltered.push(crime.Incident)
-                  crimeCountFiltered.push(crime.Count)
-                  crimeYearFiltered.push(crime.Year);
+            data.forEach(function(crime) {
+              if (crime.Neighborhood == userHood) {
+                // crimeNameFiltered.push(crime.Neighborhood)
+                crimeTypeFiltered.push(crime.Incident)
+                crimeCountFiltered.push(crime.Count)
+                crimeYearFiltered.push(crime.Year);
+        
+                var currentcrime = crime.Incident;
+                  // If the crime has been seen before...
+                  if (currentcrime in crimeCountsFiltered) {
+                      // Add crime count to the sum
+                      crimeCountsFiltered[currentcrime] += crime.Count;
+                    }
+                  else {
+                    // Set the amount to first count of crime
+                    crimeCountsFiltered[currentcrime] = crime.Count;
+                    }
+                return crimeCountsFiltered;
+              }
+            })
+            console.log(crimeCountsFiltered);
+        
+            newKeys = [];
+            newValues = [];
+        
+            for (var key in crimeCountsFiltered) {
+              newKeys.push(key);
+              newValues.push(crimeCountsFiltered[key]);
+            }
+            // console.log(newKeys);
+            // console.log(newValues);
+      
+            function newPlot() {
+      
+            // Create the Trace
+            var trace1 = {
+              x: newKeys,
+              y: newValues,
+              type: "bar",
+            };
           
-                  var currentcrime = crime.Incident;
-                    // If the crime has been seen before...
-                    if (currentcrime in crimeCountsFiltered) 
-                      {
-                        // Add crime count to the sum
-                        crimeCountsFiltered[currentcrime] += crime.Count;
-                      }
-                    else 
-                      {
-                      // Set the amount to first count of crime
-                      crimeCountsFiltered[currentcrime] = crime.Count;
-                      }
-                  return crimeCountsFiltered;
-                }
-              })
-              console.log(crimeCountsFiltered);
-        
-              newKeys = [];
-              newValues = [];
-        
-              for (var key in crimeCountsFiltered) {
-                newKeys.push(key);
-                newValues.push(crimeCountsFiltered[key]);
-              }
-        
-              console.log(newKeys);
-              console.log(newValues);
-        
-              function newPlot() {
-        
-                // Create the Trace
-                var trace1 = {
-                  x: newKeys,
-                  y: newValues,
-                  type: "bar",
-                };
-            
-            
-                // Create the data array for our plot
-                var data = [trace1];
-        
-                // Define our plot layout
-                var layout = {
-                    title: `${userHood} Crime by Type, 2018-2020`,
-                    // xaxis: {title: "Neighborhood"},
-                    yaxis: {title: "Total Occurrences"}
-                };
-        
-                // Make responsive
-                var config = {responsive: true};
-        
-                // Plot the chart to a div tag with id "plot1"
-                Plotly.newPlot("plot1", data, layout, config);
-        
-              }
-              newPlot();
-        
-        
+            // Create the data array for our plot
+            var data = [trace1];
+    
+            // Define our plot layout
+            var layout = {
+                title: `${userHood} Crime by Type, 2018-2020`,
+                yaxis: {title: "Total Occurrences"}
+            };
+      
+            // Make responsive
+            var config = {responsive: true};
+      
+            // Plot the chart to a div tag with id "plot1"
+            Plotly.newPlot("plot1", data, layout, config);
+      
+            }
+            newPlot();
           });
-
-          // *********************** end filtered bar chart ***************************
-
  
-           // ********************** filtered donut chart *************************
+          // *************************** Filtered donut chart *****************************
  
-           function newDonut() {
+          function newDonut() {
  
-             var chart = new Chartist.Pie('.ct-chart', {
-               series: [returnValue(OOPercent), returnValue(ROPercent), returnValue(vacantUnitsPercent)],
-               labels: [`${returnValue(OOPercent)}% Owner Occupied`, `${returnValue(ROPercent)}% Renter Occupied`, `${returnValue(vacantUnitsPercent)}% Vacant Units`]
-             }, {
-               donut: true,
-               showLabel: true
-               // plugins: [
-               //   Chartist.plugins.fillDonut({
-               //       items: [{
-                     //     content: '<i class="fa fa-tachometer"></i>',
-                     //     position: 'bottom',
-                     //     offsetY : 10,
-                     //     offsetX: -2
-                     // }, {
-                 //         content: '<h6>crimes<span class="small">by Neighborhood</span></h6>'
-                 //     }]
-                 //   })
-                 // ],
-             });
+            var chart = new Chartist.Pie('.ct-chart', {
+              series: [returnValue(OOPercent), returnValue(ROPercent), returnValue(vacantUnitsPercent)],
+              labels: [`${returnValue(OOPercent)}% Owner Occupied`, `${returnValue(ROPercent)}% Renter Occupied`, `${returnValue(vacantUnitsPercent)}% Vacant Units`]
+            }, {
+              donut: true,
+              showLabel: true
+              // plugins: [
+              //   Chartist.plugins.fillDonut({
+              //       items: [{
+                    //     content: '<i class="fa fa-tachometer"></i>',
+                    //     position: 'bottom',
+                    //     offsetY : 10,
+                    //     offsetX: -2
+                    // }, {
+                //         content: '<h6>crimes<span class="small">by Neighborhood</span></h6>'
+                //     }]
+                //   })
+                // ],
+            });
              
-             chart.on('draw', function(data) {
-               if(data.type === 'slice') {
-                 // Get the total path length in order to use for dash array animation
-                 var pathLength = data.element._node.getTotalLength();
+            chart.on('draw', function(data) {
+              if(data.type === 'slice') {
+                // Get the total path length in order to use for dash array animation
+                var pathLength = data.element._node.getTotalLength();
+            
+                // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+                data.element.attr({
+                  'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+                });
+            
+                // Create animation definition while also assigning an ID to the animation for later sync usage
+                var animationDefinition = {
+                  'stroke-dashoffset': {
+                    id: 'anim' + data.index,
+                    dur: 1000,
+                    from: -pathLength + 'px',
+                    to:  '0px',
+                    easing: Chartist.Svg.Easing.easeOutQuint,
+                    // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+                    fill: 'freeze'
+                  }
+                };
              
-                 // Set a dasharray that matches the path length as prerequisite to animate dashoffset
-                 data.element.attr({
-                   'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
-                 });
+                // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+                if(data.index !== 0) {
+                  animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+                }
              
-                 // Create animation definition while also assigning an ID to the animation for later sync usage
-                 var animationDefinition = {
-                   'stroke-dashoffset': {
-                     id: 'anim' + data.index,
-                     dur: 1000,
-                     from: -pathLength + 'px',
-                     to:  '0px',
-                     easing: Chartist.Svg.Easing.easeOutQuint,
-                     // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
-                     fill: 'freeze'
-                   }
-                 };
+                // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+                data.element.attr({
+                  'stroke-dashoffset': -pathLength + 'px'
+                });
              
-                 // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
-                 if(data.index !== 0) {
-                   animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
-                 }
+                // We can't use guided mode as the animations need to rely on setting begin manually
+                // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+                data.element.animate(animationDefinition, false);
+              }
+            });
              
-                 // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
-                 data.element.attr({
-                   'stroke-dashoffset': -pathLength + 'px'
-                 });
-             
-                 // We can't use guided mode as the animations need to rely on setting begin manually
-                 // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
-                 data.element.animate(animationDefinition, false);
-               }
-             });
-             
-             // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
-             chart.on('created', function() {
-               if(window.__anim21278907124) {
-                 clearTimeout(window.__anim21278907124);
-                 window.__anim21278907124 = null;
-               }
-               window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
-             });
-           }   
-           newDonut();
-           // ************************************************ end filtered donut chart ***********************************************************
+            // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+            chart.on('created', function() {
+              if(window.__anim21278907124) {
+                clearTimeout(window.__anim21278907124);
+                window.__anim21278907124 = null;
+              }
+              window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+            });
+          }   
+          newDonut();
         }
       });
     }
   }).addTo(myMap);
 });
+
+// ***************************** Minneapolis GeoJSON & Filtered charts ***************************************
 
 // Grabbing our GeoJSON data..
 d3.json(Minneapolis).then(function(data) {
@@ -438,11 +387,10 @@ d3.json(Minneapolis).then(function(data) {
             }
           }
 
-
-          // **************************start filtered bar chart ****************************
+          // ***************************** Filtered bar chart ****************************
           d3.json(crime_data).then(function(data) 
           {
-            var crimeNameFiltered = [];
+            // var crimeNameFiltered = [];
             var crimeTypeFiltered = [];
             var crimeCountFiltered = [];
             var crimeCityFiltered = [];
@@ -450,23 +398,20 @@ d3.json(Minneapolis).then(function(data) {
             var crimeCountsFiltered = {};  
 
             // console.log(data);
-            data.forEach(function(crime) 
-              {
+            data.forEach(function(crime) {
                 if (crime.Neighborhood == userHood) {
-                  crimeNameFiltered.push(crime.Neighborhood)
+                  // crimeNameFiltered.push(crime.Neighborhood)
                   crimeTypeFiltered.push(crime.Incident)
                   crimeCountFiltered.push(crime.Count)
                   crimeYearFiltered.push(crime.Year);
           
                   var currentcrime = crime.Incident;
                     // If the crime has been seen before...
-                    if (currentcrime in crimeCountsFiltered) 
-                      {
+                    if (currentcrime in crimeCountsFiltered) {
                         // Add crime count to the sum
                         crimeCountsFiltered[currentcrime] += crime.Count;
                       }
-                    else 
-                      {
+                    else {
                       // Set the amount to first count of crime
                       crimeCountsFiltered[currentcrime] = crime.Count;
                       }
@@ -483,8 +428,8 @@ d3.json(Minneapolis).then(function(data) {
                 newValues.push(crimeCountsFiltered[key]);
               }
         
-              console.log(newKeys);
-              console.log(newValues);
+              // console.log(newKeys);
+              // console.log(newValues);
         
               function newPlot() {
         
@@ -494,8 +439,7 @@ d3.json(Minneapolis).then(function(data) {
                   y: newValues,
                   type: "bar",
                 };
-            
-            
+          
                 // Create the data array for our plot
                 var data = [trace1];
         
@@ -513,14 +457,10 @@ d3.json(Minneapolis).then(function(data) {
                 Plotly.newPlot("plot1", data, layout, config);
         
               }
-              newPlot();
-        
-        
+            newPlot();
           });
 
-          // *********************** end filtered bar chart ***************************
-
-          // ********************** filtered donut chart *************************
+          // **************************** Filtered donut chart *****************************
 
           function newDonut() {
 
@@ -583,8 +523,6 @@ d3.json(Minneapolis).then(function(data) {
               }
             });
             
-            
-            
             // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
             chart.on('created', function() {
               if(window.__anim21278907124) {
@@ -593,98 +531,71 @@ d3.json(Minneapolis).then(function(data) {
               }
               window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
             });
-
           }   
           newDonut();
-          // ************************************************ end filtered donut chart ***********************************************************
         }
       });
-      // layer.bindPopup("<h5>" + feature.properties.name + "</h5><hr>" + "<h6>Population: " + feature.properties.Total_population + "</h6");
     }
   }).addTo(myMap);
 });
 
+// ************************** Initialize Twin Cities Bar Graph *****************************
 
-// *********** PLOT BUILDING **********
+d3.json(crime_data).then(function(data) {
+  data.forEach(function(crime) {
+    crimeType.push(crime.Incident)
+    crimeCount.push(crime.Count)
+    crimeYear.push(crime.Year);
 
+    var currentcrime = crime.Incident;
+      // If the crime has been seen before...
+      if (currentcrime in crimeCounts) {
+          // Add crime count to the sum
+          crimeCounts[currentcrime] += crime.Count;
+        }
+      else {
+        // Set the amount to first count of crime
+        crimeCounts[currentcrime] = crime.Count;
+        }
+    return crimeCounts;
+  })
+  console.log(crimeCounts);
 
+  keys = [];
+  values = [];
 
-  // we're going to put twin cities crime totals by type here
-  // the filtered version will have crimte totals by type for the clicked neighborhood
-  d3.json(crime_data).then(function(data) 
-  {
-    // console.log(data);
-    data.forEach(function(crime) 
-      {
-        crimeName.push(crime.Neighborhood)
-        crimeType.push(crime.Incident)
-        crimeCount.push(crime.Count)
-        crimeYear.push(crime.Year);
+  for (var key in crimeCounts) {
+    keys.push(key);
+    values.push(crimeCounts[key]);
+  }
 
-        var currentcrime = crime.Incident;
-          // If the crime has been seen before...
-          if (currentcrime in crimeCounts) 
-            {
-              // Add crime count to the sum
-              crimeCounts[currentcrime] += crime.Count;
-            }
-          else 
-            {
-            // Set the amount to first count of crime
-            crimeCounts[currentcrime] = crime.Count;
-            }
-        return crimeCounts;
-        
-      })
-      console.log(crimeCounts);
-
-      keys = [];
-      values = [];
-
-      for (var key in crimeCounts) {
-        keys.push(key);
-        values.push(crimeCounts[key]);
-      }
-
-      console.log(keys);
-      console.log(values);
-
-      function buildPlot() {
-
-        // Create the Trace
-        var trace1 = {
-          x: keys,
-          y: values,
-          type: "bar",
-        };
+  function buildPlot() {
+    // Create the Trace
+    var trace1 = {
+      x: keys,
+      y: values,
+      type: "bar",
+    };
     
-    
-        // Create the data array for our plot
-        var data = [trace1];
+    // Create the data array for our plot
+    var data = [trace1];
 
-        // Define our plot layout
-        var layout = {
-            title: "Twin Cities Crime by Type, 2018-2020",
-            // xaxis: {title: "Neighborhood"},
-            yaxis: {title: "Total Occurrences"}
-        };
+    // Define our plot layout
+    var layout = {
+        title: "Twin Cities Crime by Type, 2018-2020",
+        yaxis: {title: "Total Occurrences"}
+    };
 
-        // Make responsive
-        var config = {responsive: true};
+    // Make responsive
+    var config = {responsive: true};
 
-        // Plot the chart to a div tag with id "plot1"
-        Plotly.newPlot("plot1", data, layout, config);
-
-      }
-      buildPlot();
-
-
+    // Plot the chart to a div tag with id "plot1"
+    Plotly.newPlot("plot1", data, layout, config);
+  }
+  buildPlot();
   });
 
-    // ******************end bar plot*****************************
-
-// ***************** Donut!!! **************
-
+// ************************** Initialize Twin Cities Donut *****************************
 
 var chart = new Chartist.Pie('.ct-chart', {
   // series: [Object.values(nhCounts)],
@@ -747,8 +658,6 @@ chart.on('draw', function(data) {
   }
 });
 
-
-
 // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
 chart.on('created', function() {
   if(window.__anim21278907124) {
@@ -757,5 +666,3 @@ chart.on('created', function() {
   }
   window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
 });
-
-
