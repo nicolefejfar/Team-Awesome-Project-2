@@ -87,14 +87,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 var stPaul = "static/data/StPaul_Census.geojson";
 // repeat with Minneapolis Neighborhoods
 var Minneapolis = "static/data/Minneapolis_Census.geojson"
-  
-  // Our style object
-  // var mapStyle = {
-  //   color: "grey",
-  //   fillColor: "pink",
-  //   fillOpacity: 0.5,
-  //   weight: 1.5
-  // };
+ 
 
 function getColor(d) {
   return d > 60000 ? '#4d004b' :
@@ -222,7 +215,6 @@ d3.json(Minneapolis).then(function(data) {
 
 
 // *********** PLOT BUILDING **********
-
 
 
 function buildPlot() {
