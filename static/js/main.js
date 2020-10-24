@@ -562,8 +562,10 @@ d3.json(crime_data).then(function(data) {
 // ************************** Initialize Twin Cities Donut *****************************
 
 var chart = new Chartist.Pie('.ct-chart', {
-  series: [tcOOPercent, tcROPercent, tcVacantUnitPercent],
-  labels: [`${tcOOPercent}% Owner-Occupied`, `${tcROPercent}% Renter-Occupied`, `${tcVacantUnitPercent}% Vacant`]
+  series: [tcOOPercent, tcROPercent],
+    // , tcVacantUnitPercent], - Took this out because the above adds up to 100 %
+  labels: [`${tcOOPercent}% Owner-Occupied`, `${tcROPercent}% Renter-Occupied`]
+  // , `${tcVacantUnitPercent}% Vacant`] - Took this out because the above adds up to 100 %
 }, {
   donut: true,
   showLabel: true
