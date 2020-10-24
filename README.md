@@ -52,7 +52,5 @@
 		○ Mpls Crime Stats
 		○ 2017 only
 		○ Download CSV
-	• Walk/Transit: https://www.walkscore.com/professional/api.php
-		○ Think we can get neighborhoods
-		○ Nice to have, time allowing
+
 	• Data merged with GeoJSONs here: https://funkeinteraktiv.github.io/geo-data-merger/
