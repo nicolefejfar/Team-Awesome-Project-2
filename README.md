@@ -7,10 +7,7 @@
 	• Marianne Pagerit
 	
 ## Project Summary
-	• Interactive dashboard providing information on Twin Cities neighborhoods
-		○ Crime
-		○ Housing
-		○ Demographics
+	• Interactive dashboard providing information on crime & housing for Twin Cities neighborhoods
 
 ## Database Creation Instructions
 	1. Create a database in pgAdmin, name it tc_neighborhoods.
@@ -35,22 +32,17 @@
 	8. Highlight "select * from merged_crime;" and run code. You should see all the data in that table.
 	9. Repeat step 8 with merged_census_mini. All data should be present in this table.
 	
-## Data Sources (WIP)
+## Data Sources
 	• GeoJSON Mpls: https://data.world/minneapolismn/055ca54e5fcc47329f081c9ef51d038e-0
 		○ GeoJson File download
 	• GeoJSON St.Paul: https://information.stpaul.gov/City-Administration/District-Council-Shapefile-Map/dq4n-yj8b
 		○ GeoJson file download
 	• Census Info: http://www.mncompass.org/profiles/neighborhoods/minneapolis-saint-paul
-		○ Dataset with a a bunch of demographic info per neighborhood
-		○ Excel
-		○ Compilation of census data from 2010
-	• CRIME: https://information.stpaul.gov/Public-Safety/Crime-Incident-Report-Dataset/gppb-g9cg
-		○ St. Paul crime data 2014 - Current
-		○ API, or download
-		○ No geocoordinates, just addresses
-	• CRIME: https://opendata.minneapolismn.gov/datasets/neighborhood-crime-stats
-		○ Mpls Crime Stats
-		○ 2017 only
-		○ Download CSV
+		○ Demographic info per neighborhood
+		○ Compilation of 2010 census data and American Community Survey info, 2014-2018
+	• Crime St Paul: https://information.stpaul.gov/Public-Safety/Crime-Incident-Report-Dataset/gppb-g9cg
+		○ St. Paul crime data per neigborhood, 2014 through Oct. 2020
+	• Crime Minneapolis: https://opendata.minneapolismn.gov/datasets/neighborhood-crime-stats
+		○ Mpls Crime Stats by neighborhood, 2018 through Sep. 2020
 
 	• Data merged with GeoJSONs here: https://funkeinteraktiv.github.io/geo-data-merger/
