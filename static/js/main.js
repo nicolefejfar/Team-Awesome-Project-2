@@ -223,7 +223,7 @@ d3.json(stPaul).then(function(data) {
             // Define our plot layout
             var layout = {
               title: {
-                text: "Twin Cities Crime by Type, 2018-2020",
+                text: `${userHood} Cities Crime by Type, 2018-2020`,
                 font: {
                   color: 'rgb(105, 34, 107)',
                   size: 18
@@ -406,7 +406,7 @@ d3.json(Minneapolis).then(function(data) {
                 // Define our plot layout
                 var layout = {
                   title: {
-                    text: "Twin Cities Crime by Type, 2018-2020",
+                    text: `${userHood} Cities Crime by Type, 2018-2020`,
                     font: {
                       color: 'rgb(105, 34, 107)',
                       size: 18
